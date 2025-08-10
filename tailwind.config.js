@@ -56,12 +56,13 @@ module.exports = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        // Amazon-inspired custom colors
-        "amazon-orange": "#ff9900",
-        "amazon-blue": "#146eb4",
-        "amazon-black": "#131921",
-        "amazon-dark-gray": "#232f3e",
-        "amazon-light-gray": "#f3f3f3",
+        // Brand custom colors
+        "sunrise-amber": "#ff9a1a",
+        "midnight-slate": "#141a24",
+        "ironstone-gray": "#263445",
+        "ocean-crest": "#157fc0",
+        "cloud-mist": "#f5f5f5",
+        "porcelain-white": "#ffffff",
       },
       borderRadius: {
         lg: "var(--radius)",

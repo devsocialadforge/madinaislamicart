@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Poppins, Playfair_Display } from "next/font/google";
 import "../globals.css";
+import Header from "../../components/Header";
+import Footer from "../../components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -34,10 +36,9 @@ export default function RootLayout({
           } as React.CSSProperties
         }
       >
-        {" "}
-        <div>header</div>
-        {children}
-        <div>footer</div>
+        <Header />
+        <main className="pt-16 lg:pt-20">{children}</main>
+        <Footer />
       </body>
     </html>
   );

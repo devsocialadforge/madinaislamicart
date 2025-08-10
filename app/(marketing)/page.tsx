@@ -2,9 +2,9 @@ import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className="amazon-background grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
+    <div className="bg-gradient-to-br from-cloud-mist to-porcelain-white grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       {/* Using Playfair Display font for the main heading */}
-      <h1 className="text-4xl font-bold font-poppins text-amazon-orange">
+      <h1 className="text-4xl font-bold font-poppins text-sunrise-amber">
         Madina Islamic Art
       </h1>
 
