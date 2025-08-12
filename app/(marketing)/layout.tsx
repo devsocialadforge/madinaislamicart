@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.className}`}
+        className={`${inter.className} bg-cloud-mist`}
         style={
           {
             "--font-inter": inter.style.fontFamily,
@@ -37,7 +37,9 @@ export default function RootLayout({
         }
       >
         <Header />
-        <main className="pt-16 lg:pt-20">{children}</main>
+        <main className="min-h-screen p-2 md:p-4 lg:p-6 max-w-[1800px] mx-auto">
+          {children}
+        </main>
         <Footer />
       </body>
     </html>

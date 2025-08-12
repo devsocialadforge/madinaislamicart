@@ -130,13 +130,13 @@ const Header = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="absolute w-screen max-w-4xl mt-2 transform -translate-x-1/2 left-1/2"
+                        className="absolute w-screen max-w-sm mt-2 transform -translate-x-1/2 left-1/2"
                         onMouseEnter={() => setIsCollectionOpen(true)}
                         onMouseLeave={() => setIsCollectionOpen(false)}
                       >
                         <div className="overflow-hidden bg-white border border-gray-100 rounded-lg shadow-xl">
                           <div className="p-6">
-                            <div className="grid grid-cols-2 gap-6 md:grid-cols-3">
+                            <div className="grid grid-cols-1 gap-1 ">
                               {collections.map((collection, index) => (
                                 <motion.a
                                   key={collection.name}

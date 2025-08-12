@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export interface Product {
@@ -33,6 +34,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
     discountPrice,
     stockQuantity,
     images,
+    category,
   } = product;
 
   const finalDiscountPrice =
@@ -42,9 +44,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const mainImage = images?.[0];
 
   return (
-    <div
+    <Link
+      href={`/collection/${category.slug.current}`}
       className={cn(
-        "group relative bg-porcelain-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1",
+        "group relative bg-porcelain-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 block",
         className
       )}
     >
@@ -92,7 +95,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
         </div>
 
         {/* Product Name */}
-        <h3 className="overflow-hidden text-sm font-medium leading-tight transition-colors duration-200 font-poppins text-midnight-slate text-ellipsis line-clamp-2 group-hover:text-sunrise-amber">
+        <h3 className="overflow-hidden text-xs font-medium leading-tight transition-colors duration-200 font-poppins text-midnight-slate text-ellipsis line-clamp-2 group-hover:text-sunrise-amber">
           {name}
         </h3>
 
@@ -116,7 +119,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }
 
@@ -132,7 +135,7 @@ export const demoProducts: Product[] = [
     stockQuantity: true,
     images: [
       {
-        asset: { url: "/api/placeholder/400/400" },
+        asset: { url: "/images/dummy1.jpeg" },
         alt: "Beautiful Islamic calligraphy wall art",
       },
     ],
@@ -150,7 +153,7 @@ export const demoProducts: Product[] = [
     stockQuantity: true,
     images: [
       {
-        asset: { url: "/api/placeholder/400/400" },
+        asset: { url: "/images/demo-product.jpeg" },
         alt: "Premium prayer mat with built-in compass",
       },
     ],
@@ -169,7 +172,7 @@ export const demoProducts: Product[] = [
     stockQuantity: false,
     images: [
       {
-        asset: { url: "/api/placeholder/400/400" },
+        asset: { url: "/images/demo-product.jpeg" },
         alt: "Elegant Islamic-themed bookends",
       },
     ],
@@ -188,7 +191,7 @@ export const demoProducts: Product[] = [
     stockQuantity: true,
     images: [
       {
-        asset: { url: "/api/placeholder/400/400" },
+        asset: { url: "/images/demo-product.jpeg" },
         alt: "Luxurious wooden Quran stand with storage compartment",
       },
     ],
@@ -207,7 +210,26 @@ export const demoProducts: Product[] = [
     stockQuantity: true,
     images: [
       {
-        asset: { url: "/api/placeholder/400/400" },
+        asset: { url: "/images/demo-product.jpeg" },
+        alt: "Luxurious wooden Quran stand with storage compartment",
+      },
+    ],
+    category: {
+      name: "Religious Items",
+      slug: { current: "religious-items" },
+    },
+  },
+  {
+    _id: "6",
+    name: "throei Quran Stand with Storage",
+    slug: { current: "throei-quran-stand-with-storage" },
+    price: 125.0,
+    discountPercentage: 10,
+    discountPrice: 112.5,
+    stockQuantity: true,
+    images: [
+      {
+        asset: { url: "/images/demo-product.jpeg" },
         alt: "Luxurious wooden Quran stand with storage compartment",
       },
     ],

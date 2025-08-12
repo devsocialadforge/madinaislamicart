@@ -66,10 +66,10 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-midnight-slate text-white">
+    <footer className="w-full text-white bg-midnight-slate">
       {/* Main Footer Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+      <div className="px-4 py-12 mx-auto max-w-7xl sm:px-6 lg:px-8 lg:py-16">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {/* Shop Section */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -78,7 +78,7 @@ const Footer = () => {
             transition={{ duration: 0.6 }}
             className="space-y-4"
           >
-            <h3 className="text-xl font-playfair font-semibold text-sunrise-amber mb-6">
+            <h3 className="mb-6 text-xl font-semibold font-playfair text-sunrise-amber">
               Shop
             </h3>
             <ul className="space-y-3">
@@ -92,7 +92,7 @@ const Footer = () => {
                 >
                   <a
                     href={category.href}
-                    className="text-gray-300 hover:text-ocean-crest transition-colors duration-200 font-poppins text-sm leading-relaxed block"
+                    className="block text-sm leading-relaxed text-gray-300 transition-colors duration-200 hover:text-ocean-crest font-poppins"
                   >
                     {category.name}
                   </a>
@@ -109,7 +109,7 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="space-y-4"
           >
-            <h3 className="text-xl font-playfair font-semibold text-sunrise-amber mb-6">
+            <h3 className="mb-6 text-xl font-semibold font-playfair text-sunrise-amber">
               Customer Service
             </h3>
             <ul className="space-y-3">
@@ -123,7 +123,7 @@ const Footer = () => {
                 >
                   <a
                     href={service.href}
-                    className="text-gray-300 hover:text-ocean-crest transition-colors duration-200 font-poppins text-sm leading-relaxed block"
+                    className="block text-sm leading-relaxed text-gray-300 transition-colors duration-200 hover:text-ocean-crest font-poppins"
                   >
                     {service.name}
                   </a>
@@ -140,35 +140,35 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="space-y-4"
           >
-            <h3 className="text-xl font-playfair font-semibold text-sunrise-amber mb-6">
+            <h3 className="mb-6 text-xl font-semibold font-playfair text-sunrise-amber">
               About Us
             </h3>
             <div className="space-y-4">
-              <p className="text-gray-300 font-inter text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-gray-300 font-inter">
                 Madina Islamic Art specializes in premium Islamic artwork and
                 calligraphy. Each piece is carefully crafted to bring beauty,
                 spirituality, and elegance to your home.
               </p>
-              <p className="text-gray-300 font-inter text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-gray-300 font-inter">
                 We combine traditional Islamic artistry with modern design
                 principles to create timeless pieces that inspire and uplift.
               </p>
 
               {/* Contact Info */}
-              <div className="space-y-2 pt-4">
+              <div className="pt-4 space-y-2">
                 <div className="flex items-center space-x-3 text-gray-400">
                   <Mail className="w-4 h-4 text-ocean-crest" />
-                  <span className="font-inter text-sm">
+                  <span className="text-sm font-inter">
                     info@madinaislamicart.com
                   </span>
                 </div>
                 <div className="flex items-center space-x-3 text-gray-400">
                   <Phone className="w-4 h-4 text-ocean-crest" />
-                  <span className="font-inter text-sm">+1 (555) 123-4567</span>
+                  <span className="text-sm font-inter">+1 (555) 123-4567</span>
                 </div>
                 <div className="flex items-center space-x-3 text-gray-400">
                   <MapPin className="w-4 h-4 text-ocean-crest" />
-                  <span className="font-inter text-sm">New York, USA</span>
+                  <span className="text-sm font-inter">New York, USA</span>
                 </div>
               </div>
             </div>
@@ -182,11 +182,11 @@ const Footer = () => {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="space-y-4"
           >
-            <h3 className="text-xl font-playfair font-semibold text-sunrise-amber mb-6">
+            <h3 className="mb-6 text-xl font-semibold font-playfair text-sunrise-amber">
               Follow Us
             </h3>
             <div className="space-y-6">
-              <p className="text-gray-300 font-inter text-sm leading-relaxed">
+              <p className="text-sm leading-relaxed text-gray-300 font-inter">
                 Stay connected for new arrivals, exclusive offers, and
                 inspiration.
               </p>
@@ -218,19 +218,19 @@ const Footer = () => {
 
               {/* Newsletter Signup */}
               <div className="space-y-3">
-                <h4 className="font-poppins font-medium text-white text-sm">
+                <h4 className="text-sm font-medium text-white font-poppins">
                   Subscribe to our newsletter
                 </h4>
-                <div className="flex space-x-2">
+                <div className="flex flex-col items-center space-x-2 space-y-2">
                   <input
                     type="email"
                     placeholder="Enter your email"
-                    className="flex-1 px-3 py-2 bg-ironstone-gray text-white placeholder-gray-400 rounded-md border border-gray-600 focus:border-ocean-crest focus:outline-none focus:ring-1 focus:ring-ocean-crest font-inter text-sm"
+                    className="flex-1 px-3 py-2 text-sm text-white placeholder-gray-400 border border-gray-600 rounded-md bg-ironstone-gray focus:border-ocean-crest focus:outline-none focus:ring-1 focus:ring-ocean-crest font-inter"
                   />
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="px-4 py-2 bg-sunrise-amber hover:bg-deep-emerald text-white rounded-md font-poppins font-medium text-sm transition-colors duration-200"
+                    className="px-4 py-2 text-sm font-medium text-white transition-colors duration-200 rounded-md bg-sunrise-amber hover:bg-deep-emerald font-poppins"
                   >
                     Subscribe
                   </motion.button>
@@ -246,15 +246,15 @@ const Footer = () => {
 
       {/* Bottom Copyright Bar */}
       <div className="bg-ironstone-gray">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col lg:flex-row justify-between items-center space-y-4 lg:space-y-0">
+        <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
+          <div className="flex flex-col items-center justify-between space-y-4 lg:flex-row lg:space-y-0">
             {/* Copyright */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="flex items-center space-x-2 text-gray-400 font-inter text-sm"
+              className="flex items-center space-x-2 text-sm text-gray-400 font-inter"
             >
               <span>&copy; 2024 Madina Islamic Art. All rights reserved.</span>
               <Heart className="w-4 h-4 text-sunrise-amber" />
@@ -267,13 +267,13 @@ const Footer = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="flex flex-wrap justify-center lg:justify-end space-x-6"
+              className="flex flex-wrap justify-center space-x-6 lg:justify-end"
             >
               {legalLinks.map((link, index) => (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-gray-400 hover:text-ocean-crest transition-colors duration-200 font-inter text-sm"
+                  className="text-sm text-gray-400 transition-colors duration-200 hover:text-ocean-crest font-inter"
                 >
                   {link.name}
                 </a>
