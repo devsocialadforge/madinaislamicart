@@ -17,9 +17,17 @@ export const metadata: Metadata = {
 };
 
 export default async function CollectionPage() {
-  // In a real app, you would fetch this data from your API/database
-  // For now, we're using the static data
-  const products = extendedProducts;
+  // Ensure all products have required properties before passing to client
+  const products = extendedProducts.map((product) => ({
+    ...product,
+    slug: product.slug || {
+      current: product.name.toLowerCase().replace(/\s+/g, "-"),
+    },
+    category: {
+      name: product.category?.name || "Uncategorized",
+      slug: product.category?.slug || { current: "uncategorized" },
+    },
+  }));
 
   return <CollectionClient products={products} />;
 }

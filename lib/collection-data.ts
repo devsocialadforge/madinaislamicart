@@ -124,4 +124,14 @@ export const extendedProducts: (Product & {
     seoTitle: "Premium Tasbih Prayer Beads - Spiritual Accessories",
     seoDescription: "High-quality tasbih prayer beads for dhikr and meditation",
   },
-];
+].map((product) => ({
+  ...product,
+  // Ensure all required properties exist
+  slug: product.slug || {
+    current: product.name.toLowerCase().replace(/\s+/g, "-"),
+  },
+  category: {
+    name: product.category?.name || "Uncategorized",
+    slug: product.category?.slug || { current: "uncategorized" },
+  },
+}));

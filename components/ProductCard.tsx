@@ -52,7 +52,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
       transition={{ duration: 0.5 }}
     >
       <Link
-        href={`/collection/${category.slug.current}`}
+        href={`/collection/${category?.slug?.current || "uncategorized"}`}
         className={cn(
           "group relative bg-porcelain-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 block",
           className
