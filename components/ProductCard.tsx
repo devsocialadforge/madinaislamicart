@@ -105,15 +105,15 @@ export function ProductCard({ product, className }: ProductCardProps) {
             {hasDiscount && finalDiscountPrice ? (
               <>
                 <span className="text-lg font-semibold font-poppins sm:text-xl text-midnight-slate">
-                  ${finalDiscountPrice.toFixed(2)}
+                  ₹{finalDiscountPrice.toFixed(2)}
                 </span>
                 <span className="text-xs text-gray-500 line-through font-inter sm:text-sm">
-                  ${price.toFixed(2)}
+                  ₹{price.toFixed(2)}
                 </span>
               </>
             ) : (
               <span className="text-lg font-semibold font-poppins sm:text-xl text-midnight-slate">
-                ${price.toFixed(2)}
+                ₹{price.toFixed(2)}
               </span>
             )}
           </div>

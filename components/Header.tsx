@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ChevronDown } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
+import Image from "next/image";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -63,7 +64,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 w-full z-[10000] transition-all duration-300 ${
         isScrolled
           ? "bg-ironstone-gray/95 backdrop-blur-md shadow-lg"
           : "bg-ironstone-gray"
@@ -76,16 +77,18 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <motion.div
-            className="flex-shrink-0"
+            className="flex-shrink-0 "
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <a href="/" className="flex items-center space-x-3">
-              <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-gradient-to-br from-sunrise-amber to-ocean-crest">
-                <span className="text-lg font-bold text-white font-playfair">
-                  M
-                </span>
-              </div>
+            <a href="/" className="flex items-center space-x-5">
+              <Image
+                src="/images/whatsapp-profile-image.jpg"
+                alt="Madina Islamic Art"
+                width={60}
+                height={60}
+                className="rounded-full"
+              />
               <div className="hidden sm:block">
                 <h1 className="text-xl font-semibold text-white font-playfair lg:text-2xl">
                   Madina Islamic Art
@@ -177,13 +180,14 @@ const Header = () => {
 
           {/* CTA Button - Desktop */}
           <div className="items-center hidden space-x-4 lg:flex">
-            <motion.button
+            <motion.a
+              href="/collection"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="px-6 py-2 font-medium text-white transition-colors duration-200 rounded-lg shadow-md bg-sunrise-amber hover:bg-deep-emerald font-poppins hover:shadow-lg"
             >
               Shop Now
-            </motion.button>
+            </motion.a>
           </div>
 
           {/* Mobile Menu Button */}
@@ -274,9 +278,12 @@ const Header = () => {
                 transition={{ delay: 0.4 }}
                 className="pt-4 border-t border-gray-700"
               >
-                <button className="w-full px-6 py-3 font-medium text-white transition-colors duration-200 rounded-lg bg-sunrise-amber hover:bg-deep-emerald font-poppins">
+                <a
+                  href="/collection"
+                  className="block w-full px-6 py-3 font-medium text-center text-white transition-colors duration-200 rounded-lg bg-sunrise-amber hover:bg-deep-emerald font-poppins"
+                >
                   Shop Now
-                </button>
+                </a>
               </motion.div>
             </div>
           </motion.div>

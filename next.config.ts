@@ -7,6 +7,9 @@ const nextConfig: NextConfig = {
     deviceSizes: [360, 640, 768, 1024, 1280, 1536, 1920, 2400],
     imageSizes: [320, 480, 640, 750, 828, 1080, 1200, 1920],
   },
+  experimental: {
+    globalNotFound: true,
+  },
 };
 
 export default nextConfig;
