@@ -4,6 +4,7 @@ import "../globals.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import WhatsAppChat from "@/components/WhatsAppChat";
+import NavigationButtons from "@/components/NavigationButtons";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -39,8 +40,8 @@ export default function RootLayout({
       >
         <Header />
         <main className="min-h-screen p-2 md:p-4 lg:p-6 w-full max-w-[2300px] mx-auto">
-          <WhatsAppChat />
           {children}
+          <NavigationButtons />
         </main>
         <Footer />
       </body>

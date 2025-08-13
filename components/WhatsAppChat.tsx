@@ -30,7 +30,7 @@ const reaplay_message_Sound = () => {
 
 const WhatsAppChat = ({
   brandName = "MadeenaIslamicArt",
-  brandMessage = "Welcome! How can we help you today?",
+  brandMessage = "",
   brandColor = "#25D366",
   badgeDelay = 5000,
   position = "bottom-right",
@@ -59,7 +59,7 @@ const WhatsAppChat = ({
       case "top-left":
         return "top-8 left-8";
       default:
-        return "bottom-8 right-8";
+        return "bottom-20 right-5";
     }
   };
 
@@ -165,12 +165,6 @@ const WhatsAppChat = ({
     }
   };
 
-  const handleKeyPress = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
-      handleSendMessage();
-    }
-  };
-
   const formatTime = (timestamp?: string) => {
     if (!timestamp || !showTimestamp) return null;
     return (
@@ -229,8 +223,10 @@ const WhatsAppChat = ({
                 className="object-cover rounded-full"
               />
               <div className="flex flex-col items-start">
-                <span className="text-xl font-roboto">{brandName}</span>
-                <span className="text-sm">Online</span>
+                <span className="text-base font-roboto">{brandName}</span>
+                <span className="text-xs font-roboto">
+                  {isTyping ? "typing" : "online"}
+                </span>
               </div>
             </div>
             <button
@@ -246,7 +242,13 @@ const WhatsAppChat = ({
             {/* Brand Message */}
             <div className="mb-4">
               <div className="max-w-xs p-3 bg-white rounded-lg shadow-sm md:text-lg">
-                <p className="text-sm text-gray-800">{brandMessage}</p>
+                <p className="mb-2 font-bold text-end">, السلام عليكم</p>
+                <p className="text-sm text-gray-800">
+                  Welcome to <strong>MadeenaIslamicArt</strong>, your home for
+                  premium modern Islamic wall art. Elegant Arabic calligraphy
+                  blending tradition and contemporary style — perfect for homes,
+                  offices, and gifts.{brandMessage}
+                </p>
               </div>
               {formatTime(
                 new Date().toLocaleTimeString([], {
@@ -265,7 +267,7 @@ const WhatsAppChat = ({
                 <div
                   className={`p-3 rounded-lg shadow-sm max-w-[300px] ${message.isUser ? "bg-green-100" : "bg-white"}`}
                 >
-                  <p className="text-lg text-gray-800 md:text-lg">
+                  <p className="text-base text-gray-800 md:text-lg">
                     {message.text}
                   </p>
                   {formatTime(message.timestamp)}
@@ -300,7 +302,7 @@ const WhatsAppChat = ({
               <div className="flex justify-center mb-4">
                 <div className="flex items-center p-2 rounded-full bg-blue-50">
                   <Check className="w-4 h-4 mr-1 text-blue-500" />
-                  <span className="text-sm text-blue-600">That's it</span>
+                  <span className="text-base text-blue-600">That's it</span>
                 </div>
               </div>
             )}
@@ -317,7 +319,7 @@ const WhatsAppChat = ({
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Type a message..."
-                className="flex-1 px-4 py-1 text-sm border border-gray-300 rounded-full md:text-lg focus:outline-none focus:ring-1 focus:ring-green-500"
+                className="flex-1 px-4 py-1 text-sm border border-gray-300 rounded-full focus:outline-none focus:ring-1 focus:ring-green-500"
                 disabled={showConfirmation}
               />
               <button

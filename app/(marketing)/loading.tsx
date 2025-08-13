@@ -79,7 +79,7 @@ export default function HomePageLoading() {
       </div>
 
       {/* Customer Reviews Section Skeleton */}
-      <div className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
+      <div className="hidden p-4 md:block bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
         <SectionHeaderSkeleton className="mb-8" />
         <div className="w-full">
           <div className="flex gap-3 overflow-hidden">
@@ -93,7 +93,7 @@ export default function HomePageLoading() {
       </div>
 
       {/* Call to Action Section Skeleton */}
-      <div className="px-4 pb-16 sm:px-6 lg:px-8">
+      <div className="hidden px-4 pb-16 md:block sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto">
           <div className="p-8 border bg-gradient-to-br from-sunrise-amber/5 to-ocean-crest/5 rounded-3xl md:p-12 border-sunrise-amber/10">
             <div className="space-y-6">

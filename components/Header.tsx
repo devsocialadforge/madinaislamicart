@@ -89,7 +89,7 @@ const Header = () => {
                 height={60}
                 className="rounded-full"
               />
-              <div className="hidden sm:block">
+              <div>
                 <h1 className="text-xl font-semibold text-white font-playfair lg:text-2xl">
                   Madina Islamic Art
                 </h1>

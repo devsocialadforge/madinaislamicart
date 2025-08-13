@@ -7,6 +7,7 @@ import { HeroCarousel } from "@/components/HeroCarousel";
 import { ProductCarousel } from "@/components/ProductCarouselMulti";
 import { demoProducts } from "@/components/ProductCard";
 import { getReviews } from "@/lib/sanity/fetch";
+import WhatsAppChat from "@/components/WhatsAppChat";
 
 export default async function HomePage() {
   const banners = await getBanners();
@@ -186,6 +187,7 @@ export default async function HomePage() {
           </div>
         </section>
       </Suspense>
+      <WhatsAppChat />
     </div>
   );
 }
