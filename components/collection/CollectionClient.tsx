@@ -121,7 +121,7 @@ export function CollectionClient({ products }: CollectionClientProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="w-full mx-auto mt-20 space-y-5 bg-cloud-mist md:mt-32 md:space-y-7 lg:space-y-10 "
+      className="w-full min-h-screen mx-auto mt-20 space-y-5 bg-cloud-mist md:mt-32 md:space-y-7 lg:space-y-10 "
     >
       <div className="px-4 mx-auto sm:px-6 lg:px-8">
         <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">

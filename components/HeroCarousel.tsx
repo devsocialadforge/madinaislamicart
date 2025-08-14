@@ -11,7 +11,6 @@ import {
   CarouselPrevious,
   type CarouselApi,
 } from "@/components/ui/carousel";
-import { Button } from "@/components/ui/button";
 import { urlFor } from "@/lib/sanity/client";
 
 // Match your banner schema
@@ -86,22 +85,22 @@ export const HeroCarousel = ({
         <CarouselContent>
           {items.map((banner, index) => {
             const imageUrl_mobile = urlFor(banner.bannerImage)
-              .width(800)
-              .height(400)
+              .width(1000)
+              .height(300)
               .quality(90)
               .auto("format")
               .url();
 
             const imageUrl_desktop = urlFor(banner.bannerImage)
-              .width(2200)
-              .height(500)
+              .width(1920)
+              .height(400)
               .quality(90)
               .auto("format")
               .url();
 
             const imageUrl_tablet = urlFor(banner.bannerImage)
-              .width(1280)
-              .height(400)
+              .width(1000)
+              .height(300)
               .quality(90)
               .auto("format")
               .url();
@@ -112,67 +111,32 @@ export const HeroCarousel = ({
                   <Image
                     src={imageUrl_mobile}
                     alt={banner.bannerImage.alt || banner.title || "Banner"}
-                    width={800}
-                    height={400}
+                    width={1000}
+                    height={300}
                     priority={priorityFirst && index === 0}
                     className="object-cover w-full h-full md:hidden"
                   />
+
+                  <Image
+                    src={imageUrl_tablet}
+                    alt={banner.bannerImage.alt || banner.title || "Banner"}
+                    width={1000}
+                    height={300}
+                    priority={priorityFirst && index === 0}
+                    className="hidden object-cover w-full h-full md:block lg:hidden "
+                  />
                   <Image
                     src={imageUrl_desktop}
+                    width={1920}
+                    height={400}
                     alt={banner.bannerImage.alt || banner.title || "Banner"}
-                    width={1020}
-                    height={500}
                     priority={priorityFirst && index === 0}
-                    className="hidden object-cover w-full h-full md:block"
+                    className="hidden object-cover w-full h-full lg:block"
                   />
 
                   {/* Beautiful Gradient Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-                  {/* Content Container */}
-                  <div className="absolute inset-0 flex items-center justify-start px-8 md:px-12 lg:px-16">
-                    <div className="max-w-2xl space-y-6 text-left">
-                      {banner.title && (
-                        <h2 className="text-3xl font-bold leading-tight text-white md:text-5xl lg:text-6xl drop-shadow-lg">
-                          {banner.title}
-                        </h2>
-                      )}
-
-                      {banner.description && (
-                        <p className="max-w-xl text-lg leading-relaxed text-gray-100 md:text-xl lg:text-2xl drop-shadow-md">
-                          {banner.description}
-                        </p>
-                      )}
-
-                      {banner.ctaText && banner.ctaLink && (
-                        <div className="pt-2">
-                          <Button
-                            asChild
-                            size="lg"
-                            className="px-8 py-3 text-lg font-semibold text-white transition-all duration-300 transform border-none shadow-xl bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 hover:shadow-2xl hover:scale-105"
-                          >
-                            <a
-                              href={banner.ctaLink}
-                              target={
-                                banner.ctaLink.startsWith("http")
-                                  ? "_blank"
-                                  : undefined
-                              }
-                              rel={
-                                banner.ctaLink.startsWith("http")
-                                  ? "noopener noreferrer"
-                                  : undefined
-                              }
-                            >
-                              {banner.ctaText}
-                            </a>
-                            hello
-                          </Button>
-                        </div>
-                      )}
-                    </div>
-                  </div>
                 </div>
               </CarouselItem>
             );
