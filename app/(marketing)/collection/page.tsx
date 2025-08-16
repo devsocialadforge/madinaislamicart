@@ -7,16 +7,13 @@ export const dynamic = "force-dynamic";
 export default async function CollectionPage({
   searchParams,
 }: {
-  searchParams: Promise<{
+  searchParams: {
     search?: string;
     sort?: string;
     minPrice?: string;
     maxPrice?: string;
-  }>;
+  };
 }) {
-  // Await searchParams since it's now a Promise in Next.js 15
-  const resolvedSearchParams = await searchParams;
-
   // Fetch all products on server
   const allProducts = await getAllProducts();
 
@@ -26,7 +23,7 @@ export default async function CollectionPage({
         <Suspense fallback={<CollectionSkeleton />}>
           <CollectionClient
             initialProducts={allProducts}
-            searchParams={resolvedSearchParams}
+            searchParams={searchParams}
           />
         </Suspense>
       </div>
