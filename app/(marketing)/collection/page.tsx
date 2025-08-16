@@ -8,10 +8,10 @@ export default async function CollectionPage({
   searchParams,
 }: {
   searchParams: Promise<{
-    search?: string;
-    sort?: string;
-    minPrice?: string;
-    maxPrice?: string;
+    search?: string | undefined;
+    sort?: string | undefined;
+    minPrice?: string | undefined;
+    maxPrice?: string | undefined;
   }>;
 }) {
   // Await searchParams and fetch all products on server
