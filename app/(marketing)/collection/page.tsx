@@ -7,14 +7,15 @@ export const dynamic = "force-dynamic";
 export default async function CollectionPage({
   searchParams,
 }: {
-  searchParams: {
+  searchParams: Promise<{
     search?: string;
     sort?: string;
     minPrice?: string;
     maxPrice?: string;
-  };
+  }>;
 }) {
-  // Fetch all products on server
+  // Await searchParams and fetch all products on server
+  const resolvedSearchParams = await searchParams;
   const allProducts = await getAllProducts();
 
   return (
@@ -23,7 +24,7 @@ export default async function CollectionPage({
         <Suspense fallback={<CollectionSkeleton />}>
           <CollectionClient
             initialProducts={allProducts}
-            searchParams={searchParams}
+            searchParams={resolvedSearchParams}
           />
         </Suspense>
       </div>
