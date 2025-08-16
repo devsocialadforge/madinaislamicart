@@ -1,163 +1,249 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { CollectionFilters } from "./CollectionFilters";
-import { CollectionControls } from "./CollectionControls";
-import { ProductsGrid } from "./ProductsGrid";
-import { MobileFilterOverlay } from "./MobileFilterOverlay";
-import { type Product } from "@/components/ProductCard";
-import { motion } from "framer-motion";
+import { useState, useMemo } from "react";
+import { Search, SlidersHorizontal } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ProductCard, Product } from "@/components/ProductCard";
+import { cn } from "@/lib/utils";
 
-interface ExtendedProduct extends Product {
-  priorityTags: string[];
-  seoTitle?: string;
-  seoDescription?: string;
-}
+type SortOption = "best-offer" | "price-low" | "price-high";
 
-type SortOption = "trending" | "price-low-high" | "price-high-low";
-
-interface Filters {
-  priceFrom: string;
-  priceTo: string;
-  category: string;
-  inStock: boolean;
+interface FilterState {
+  search: string;
+  sort: SortOption;
+  minPrice: number;
+  maxPrice: number;
 }
 
 interface CollectionClientProps {
-  products: ExtendedProduct[];
+  initialProducts: Product[];
+  searchParams?: {
+    search?: string;
+    sort?: string;
+    minPrice?: string;
+    maxPrice?: string;
+  };
 }
 
-export function CollectionClient({ products }: CollectionClientProps) {
-  const [sortBy, setSortBy] = useState<SortOption>("trending");
-  const [showFilters, setShowFilters] = useState(false);
-  const [filters, setFilters] = useState<Filters>({
-    priceFrom: "",
-    priceTo: "",
-    category: "",
-    inStock: false,
+export default function CollectionClient({
+  initialProducts,
+  searchParams = {},
+}: CollectionClientProps) {
+  const [filters, setFilters] = useState<FilterState>({
+    search: searchParams.search || "",
+    sort: (searchParams.sort as SortOption) || "best-offer",
+    minPrice: Number(searchParams.minPrice) || 0,
+    maxPrice: Number(searchParams.maxPrice) || 10000,
   });
 
-  // Filter and sort products
-  const filteredAndSortedProducts = useMemo(() => {
-    let filtered = [...products];
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
-    // Apply filters
-    if (filters.priceFrom) {
-      filtered = filtered.filter((p) => {
-        const price = p.discountPrice || p.price;
-        return price >= parseFloat(filters.priceFrom);
-      });
+  // Calculate offer percentage for sorting
+  const calculateOfferPercentage = (product: Product): number => {
+    if (product.discountPercentage && product.discountPercentage > 0) {
+      return product.discountPercentage;
     }
-
-    if (filters.priceTo) {
-      filtered = filtered.filter((p) => {
-        const price = p.discountPrice || p.price;
-        return price <= parseFloat(filters.priceTo);
-      });
-    }
-
-    if (filters.category) {
-      filtered = filtered.filter((p) =>
-        p.category.name.toLowerCase().includes(filters.category.toLowerCase())
+    if (product.discountPrice && product.price > product.discountPrice) {
+      return Math.round(
+        ((product.price - product.discountPrice) / product.price) * 100
       );
     }
-
-    if (filters.inStock) {
-      filtered = filtered.filter((p) => p.stockQuantity);
-    }
-
-    // Apply sorting
-    switch (sortBy) {
-      case "trending":
-        return filtered.sort((a, b) => {
-          const aScore = a.priorityTags.includes("trending")
-            ? 2
-            : a.priorityTags.includes("featured")
-              ? 1
-              : 0;
-          const bScore = b.priorityTags.includes("trending")
-            ? 2
-            : b.priorityTags.includes("featured")
-              ? 1
-              : 0;
-          return bScore - aScore;
-        });
-      case "price-low-high":
-        return filtered.sort((a, b) => {
-          const aPrice = a.discountPrice || a.price;
-          const bPrice = b.discountPrice || b.price;
-          return aPrice - bPrice;
-        });
-      case "price-high-low":
-        return filtered.sort((a, b) => {
-          const aPrice = a.discountPrice || a.price;
-          const bPrice = b.discountPrice || b.price;
-          return bPrice - aPrice;
-        });
-      default:
-        return filtered;
-    }
-  }, [sortBy, filters, products]);
-
-  const handleFilterChange = (key: keyof Filters, value: string | boolean) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
+    return 0;
   };
 
-  const clearFilters = () => {
-    setFilters({
-      priceFrom: "",
-      priceTo: "",
-      category: "",
-      inStock: false,
+  // Get effective price for sorting
+  const getEffectivePrice = (product: Product): number => {
+    if (product.discountPrice) return product.discountPrice;
+    if (product.discountPercentage && product.discountPercentage > 0) {
+      return product.price * (1 - product.discountPercentage / 100);
+    }
+    return product.price;
+  };
+
+  // Filter and sort products
+  const filteredProducts = useMemo(() => {
+    let filtered = initialProducts.filter((product) => {
+      // Search filter
+      if (
+        filters.search &&
+        !product.name.toLowerCase().includes(filters.search.toLowerCase())
+      ) {
+        return false;
+      }
+
+      // Price range filter
+      const effectivePrice = getEffectivePrice(product);
+      if (
+        effectivePrice < filters.minPrice ||
+        effectivePrice > filters.maxPrice
+      ) {
+        return false;
+      }
+
+      return true;
     });
-  };
 
-  const hasActiveFilters = Boolean(
-    filters.priceFrom || filters.priceTo || filters.category || filters.inStock
-  );
+    // Sort products
+    switch (filters.sort) {
+      case "best-offer":
+        filtered.sort(
+          (a, b) => calculateOfferPercentage(b) - calculateOfferPercentage(a)
+        );
+        break;
+      case "price-low":
+        filtered.sort((a, b) => getEffectivePrice(a) - getEffectivePrice(b));
+        break;
+      case "price-high":
+        filtered.sort((a, b) => getEffectivePrice(b) - getEffectivePrice(a));
+        break;
+    }
+
+    return filtered;
+  }, [initialProducts, filters]);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="w-full min-h-screen mx-auto mt-20 space-y-5 bg-cloud-mist md:mt-32 md:space-y-7 lg:space-y-10 "
-    >
-      <div className="px-4 mx-auto sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-6 lg:flex-row lg:gap-8">
-          {/* Desktop Sidebar Filters */}
-          <CollectionFilters
-            filters={filters}
-            onFilterChange={handleFilterChange}
-            onClearFilters={clearFilters}
-            hasActiveFilters={hasActiveFilters}
-          />
-
-          {/* Main Content */}
-          <div className="flex-1 min-w-0">
-            {/* Controls */}
-            <CollectionControls
-              sortBy={sortBy}
-              onSortChange={setSortBy}
-              onShowFilters={() => setShowFilters(true)}
-              hasActiveFilters={hasActiveFilters}
-              productCount={filteredAndSortedProducts.length}
+    <div className="font-inter">
+      <div className="container px-4 py-6 mx-auto sm:py-8 max-w-7xl">
+        {/* Search Bar - Center Top */}
+        <div className="flex justify-center mb-6 sm:mb-8">
+          <div className="relative w-full max-w-md">
+            <Search className="absolute w-4 h-4 transform -translate-y-1/2 left-3 top-1/2 text-midnight-slate/50" />
+            <Input
+              type="text"
+              placeholder="Search products..."
+              value={filters.search}
+              onChange={(e) =>
+                setFilters((prev) => ({ ...prev, search: e.target.value }))
+              }
+              className="h-12 pl-10 border-2 border-gray-200 rounded-lg bg-porcelain-white focus:border-sunrise-amber focus:ring-2 focus:ring-sunrise-amber/20 font-inter text-midnight-slate placeholder:text-midnight-slate/50"
             />
-
-            {/* Products Grid */}
-            <ProductsGrid products={filteredAndSortedProducts} />
           </div>
         </div>
-      </div>
 
-      {/* Mobile Filter Overlay */}
-      <MobileFilterOverlay
-        isOpen={showFilters}
-        onClose={() => setShowFilters(false)}
-        filters={filters}
-        onFilterChange={handleFilterChange}
-        onClearFilters={clearFilters}
-      />
-    </motion.div>
+        {/* Mobile Filter Toggle */}
+        <div className="flex justify-center mb-4 sm:hidden">
+          <button
+            onClick={() => setShowMobileFilters(!showMobileFilters)}
+            className="flex items-center gap-2 px-4 py-2 font-medium text-white transition-colors rounded-lg bg-sunrise-amber font-poppins hover:bg-sunrise-amber/90"
+          >
+            <SlidersHorizontal className="w-4 h-4" />
+            Filters & Sort
+          </button>
+        </div>
+
+        {/* Desktop Controls / Mobile Expandable */}
+        <div
+          className={cn(
+            "flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6 sm:mb-8 transition-all duration-300",
+            showMobileFilters ? "block" : "hidden sm:flex"
+          )}
+        >
+          {/* Sort Dropdown - Left */}
+          <div className="w-full sm:w-auto">
+            <label className="block mb-2 text-sm font-medium font-poppins text-midnight-slate">
+              Sort By
+            </label>
+            <select
+              value={filters.sort}
+              onChange={(e) =>
+                setFilters((prev) => ({
+                  ...prev,
+                  sort: e.target.value as SortOption,
+                }))
+              }
+              className="w-full h-10 px-3 border-2 border-gray-200 rounded-lg cursor-pointer sm:w-48 bg-porcelain-white focus:border-sunrise-amber focus:ring-2 focus:ring-sunrise-amber/20 font-inter text-midnight-slate"
+            >
+              <option value="best-offer">Best Offer</option>
+              <option value="price-low">Price: Low to High</option>
+              <option value="price-high">Price: High to Low</option>
+            </select>
+          </div>
+
+          {/* Price Range Filter - Right */}
+          <div className="w-full sm:w-auto">
+            <label className="block mb-2 text-sm font-medium font-poppins text-midnight-slate">
+              Price Range
+            </label>
+            <div className="flex items-center gap-2">
+              <div className="relative">
+                <span className="absolute transform -translate-y-1/2 left-3 top-1/2 text-midnight-slate/70 font-inter">
+                  ₹
+                </span>
+                <Input
+                  type="number"
+                  placeholder="From"
+                  value={filters.minPrice || ""}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      minPrice: Number(e.target.value) || 0,
+                    }))
+                  }
+                  className="w-20 h-10 pl-6 pr-2 text-sm border-2 border-gray-200 rounded-lg sm:w-24 bg-porcelain-white focus:border-sunrise-amber focus:ring-2 focus:ring-sunrise-amber/20 font-inter text-midnight-slate"
+                />
+              </div>
+              <span className="text-midnight-slate/50 font-inter">to</span>
+              <div className="relative">
+                <span className="absolute transform -translate-y-1/2 left-3 top-1/2 text-midnight-slate/70 font-inter">
+                  ₹
+                </span>
+                <Input
+                  type="number"
+                  placeholder="To"
+                  value={filters.maxPrice || ""}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      maxPrice: Number(e.target.value) || 10000,
+                    }))
+                  }
+                  className="w-20 h-10 pl-6 pr-2 text-sm border-2 border-gray-200 rounded-lg sm:w-24 bg-porcelain-white focus:border-sunrise-amber focus:ring-2 focus:ring-sunrise-amber/20 font-inter text-midnight-slate"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Results Count */}
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold sm:text-2xl font-poppins text-midnight-slate">
+            See All Products
+          </h2>
+          <span className="text-sm font-inter text-midnight-slate/70">
+            {filteredProducts.length} product
+            {filteredProducts.length !== 1 ? "s" : ""} found
+          </span>
+        </div>
+
+        {/* Products Grid */}
+        {filteredProducts.length > 0 ? (
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6">
+            {filteredProducts.map((product) => (
+              <div
+                key={product._id}
+                className="overflow-hidden transition-all duration-300 border border-gray-100 rounded-lg shadow-sm group bg-porcelain-white hover:shadow-lg hover:-translate-y-1"
+              >
+                <ProductCard
+                  product={product}
+                  className="border-0 shadow-none hover:shadow-none hover:translate-y-0"
+                />
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="py-12 text-center">
+            <div className="flex items-center justify-center w-24 h-24 mx-auto mb-4 bg-gray-100 rounded-full">
+              <Search className="w-8 h-8 text-gray-400" />
+            </div>
+            <h3 className="mb-2 text-lg font-medium font-poppins text-midnight-slate">
+              No products found
+            </h3>
+            <p className="text-midnight-slate/70 font-inter">
+              Try adjusting your search terms or filters
+            </p>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }

@@ -2,9 +2,11 @@ import { sanityClient } from "./client";
 import {
   BANNERS_QUERY,
   CATEGORIES_QUERY,
-  PRODUCTS_QUERY,
-  FEATURED_PRODUCTS_QUERY,
+  MOST_POPULAR_PRODUCTS_QUERY,
+  TRENDING_NOW_PRODUCTS_QUERY,
   REVIEWS_QUERY,
+  ALL_PRODUCTS_QUERY,
+  SEARCH_PRODUCTS_QUERY,
 } from "./queries";
 
 import type { Banner, Review } from "./types";
@@ -31,32 +33,54 @@ export async function getCategories(): Promise<Category[]> {
   }
 }
 
-// Fetch all products
-export async function getProducts(): Promise<Product[]> {
-  try {
-    return await sanityClient.fetch(PRODUCTS_QUERY);
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
-}
-
-// Fetch featured products
-export async function getFeaturedProducts(): Promise<Product[]> {
-  try {
-    return await sanityClient.fetch(FEATURED_PRODUCTS_QUERY);
-  } catch (error) {
-    console.error("Error fetching featured products:", error);
-    return [];
-  }
-}
-
 // Fetch reviews
 export async function getReviews(): Promise<Review[]> {
   try {
     return await sanityClient.fetch(REVIEWS_QUERY);
   } catch (error) {
     console.error("Error fetching reviews:", error);
+    return [];
+  }
+}
+
+// Fetch most popular products
+export async function getMostPopularProducts(): Promise<Product[]> {
+  try {
+    return await sanityClient.fetch(MOST_POPULAR_PRODUCTS_QUERY);
+  } catch (error) {
+    console.error("Error fetching most popular products:", error);
+    return [];
+  }
+}
+
+// Fetch trending now products
+export async function getTrendingNowProducts(): Promise<Product[]> {
+  try {
+    return await sanityClient.fetch(TRENDING_NOW_PRODUCTS_QUERY);
+  } catch (error) {
+    console.error("Error fetching trending now products:", error);
+    return [];
+  }
+}
+
+// Fetch all products
+export async function getAllProducts(): Promise<Product[]> {
+  try {
+    return await sanityClient.fetch(ALL_PRODUCTS_QUERY);
+  } catch (error) {
+    console.error("Error fetching all products:", error);
+    return [];
+  }
+}
+
+// Search products by name
+export async function searchProducts(searchTerm: string): Promise<Product[]> {
+  try {
+    return await sanityClient.fetch(SEARCH_PRODUCTS_QUERY, {
+      searchTerm: `*${searchTerm}*`,
+    });
+  } catch (error) {
+    console.error("Error searching products:", error);
     return [];
   }
 }

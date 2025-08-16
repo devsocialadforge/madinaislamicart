@@ -2,10 +2,35 @@ export interface Banner {
   _id: string;
   title: string;
   description?: string;
-  ctaText?: string;
-  ctaLink?: string;
+  buttonText: string;
+  buttonLink: string;
   order: number;
-  bannerImage: {
+  isActive: boolean; // Add this missing property
+  mobileImage: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        };
+      };
+    };
+    alt: string;
+  };
+  tabletImage: {
+    asset: {
+      url: string;
+      metadata: {
+        dimensions: {
+          width: number;
+          height: number;
+        };
+      };
+    };
+    alt: string;
+  };
+  desktopImage: {
     asset: {
       url: string;
       metadata: {

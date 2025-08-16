@@ -5,10 +5,22 @@ export const BANNERS_QUERY = `*[_type == "banner" && isActive == true] | order(o
   _id,
   title,
   description,
-  ctaText,
-  ctaLink,
+  buttonText,
+  buttonLink,
   order,
-  bannerImage {
+  mobileImage {
+    asset-> {
+      url
+    },
+    alt
+  },
+  tabletImage {
+    asset-> {
+      url
+    },
+    alt
+  },
+  desktopImage {
     asset-> {
       url
     },
@@ -31,47 +43,6 @@ export const CATEGORIES_QUERY = `*[_type == "category"] | order(order asc) {
   "productCount": count(*[_type == "product" && references(^._id)])
 }`;
 
-// Product queries
-export const PRODUCTS_QUERY = `*[_type == "product"] | order(_createdAt desc) {
-  _id,
-  name,
-  slug,
-  price,
-  discountPercentage,
-  discountPrice,
-  stockQuantity,
-  images[] {
-    asset-> {
-      url
-    },
-    alt
-  },
-  category-> {
-    name,
-    slug
-  }
-}`;
-
-export const FEATURED_PRODUCTS_QUERY = `*[_type == "product" && isFeatured == true] | order(_createdAt desc) {
-  _id,
-  name,
-  slug,
-  price,
-  discountPercentage,
-  discountPrice,
-  stockQuantity,
-  images[] {
-    asset-> {
-      url
-    },
-    alt
-  },
-  category-> {
-    name,
-    slug
-  }
-}`;
-
 // Review query
 export const REVIEWS_QUERY = `*[_type == "review" && isApproved == true] | order(_createdAt desc) {
   _id,
@@ -88,4 +59,92 @@ export const REVIEWS_QUERY = `*[_type == "review" && isApproved == true] | order
   "date": _createdAt,
   verified,
   isApproved
+}`;
+
+// Most Popular Products query
+export const MOST_POPULAR_PRODUCTS_QUERY = `*[_type == "product" && isMostPopular == true] | order(priority asc, _createdAt desc) [0...12] {
+  _id,
+  name,
+  slug,
+  price,
+  discountPercentage,
+  discountPrice,
+  stockQuantity,
+  images[] {
+    asset-> {
+      url
+    },
+    alt
+  },
+  category-> {
+    name,
+    slug
+  }
+}`;
+
+// Trending Now Products query
+export const TRENDING_NOW_PRODUCTS_QUERY = `*[_type == "product" && isTrending == true] | order(priority asc, _createdAt desc) [0...12] {
+  _id,
+  name,
+  slug,
+  price,
+  discountPercentage,
+  discountPrice,
+  stockQuantity,
+  images[] {
+    asset-> {
+      url
+    },
+    alt
+  },
+  category-> {
+    name,
+    slug
+  }
+}`;
+
+// All Products query for collection page
+export const ALL_PRODUCTS_QUERY = `*[_type == "product"] | order(_createdAt desc) {
+  _id,
+  name,
+  slug,
+  price,
+  discountPercentage,
+  discountPrice,
+  stockQuantity,
+  images[] {
+    asset-> {
+      url
+    },
+    alt
+  },
+  category-> {
+    name,
+    slug
+  },
+  description,
+  _createdAt
+}`;
+
+// Search products query
+export const SEARCH_PRODUCTS_QUERY = `*[_type == "product" && name match $searchTerm] | order(_createdAt desc) {
+  _id,
+  name,
+  slug,
+  price,
+  discountPercentage,
+  discountPrice,
+  stockQuantity,
+  images[] {
+    asset-> {
+      url
+    },
+    alt
+  },
+  category-> {
+    name,
+    slug
+  },
+  description,
+  _createdAt
 }`;

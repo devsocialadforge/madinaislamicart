@@ -244,10 +244,9 @@ const WhatsAppChat = ({
               <div className="max-w-xs p-3 bg-white rounded-lg shadow-sm md:text-lg">
                 <p className="mb-2 font-bold text-end">, السلام عليكم</p>
                 <p className="text-sm text-gray-800">
-                  Welcome to <strong>MadeenaIslamicArt</strong>, your home for
-                  premium modern Islamic wall art. Elegant Arabic calligraphy
-                  blending tradition and contemporary style — perfect for homes,
-                  offices, and gifts.{brandMessage}
+                  Welcome to <strong>MadeenaIslamicArt</strong> — premium modern
+                  Islamic calligraphy for homes, offices, and gifts.
+                  {brandMessage}
                 </p>
               </div>
               {formatTime(

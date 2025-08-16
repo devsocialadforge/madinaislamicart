@@ -8,10 +8,16 @@ import { ProductCarousel } from "@/components/ProductCarouselMulti";
 import { demoProducts } from "@/components/ProductCard";
 import { getReviews } from "@/lib/sanity/fetch";
 import WhatsAppChat from "@/components/WhatsAppChat";
+import { getCategories } from "@/lib/sanity/fetch";
+import { getMostPopularProducts } from "@/lib/sanity/fetch";
+import { getTrendingNowProducts } from "@/lib/sanity/fetch";
 
 export default async function HomePage() {
   const banners = await getBanners();
   const reviews = await getReviews();
+  const categories = await getCategories();
+  const mostPopularProducts = await getMostPopularProducts();
+  const trendingNowProducts = await getTrendingNowProducts();
 
   return (
     <div className="w-full mx-auto space-y-5 md:space-y-7 lg:space-y-10 ">
@@ -21,8 +27,12 @@ export default async function HomePage() {
           <div className="w-full md:h-[70vh] bg-cloud-mist animate-pulse rounded-2xl" />
         }
       >
-        <div className="flex justify-center w-full mt-32 bg-porcelain-white">
-          <HeroCarousel banners={banners} />
+        <div className="flex justify-center w-full mt-20 bg-porcelain-white">
+          <HeroCarousel
+            banners={banners}
+            autoplayDelay={5000}
+            priorityFirst={true}
+          />
         </div>
       </Suspense>
 
@@ -44,13 +54,7 @@ export default async function HomePage() {
       >
         <section className="w-full mx-auto">
           <div className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
-            <SectionHeader
-              title="Shop by Category"
-              subtitle="Discover our carefully curated collection of authentic Islamic art and decor"
-              alignment="left"
-              className="mb-8"
-            />
-            <CategoriesGrid categories={demoCategories} />
+            <CategoriesGrid categories={categories} />
           </div>
         </section>
       </Suspense>
@@ -72,7 +76,7 @@ export default async function HomePage() {
               className="mb-8"
             />
             <ProductCarousel
-              products={demoProducts}
+              products={mostPopularProducts}
               autoplay={true}
               autoplayInterval={3500}
               className="rounded-2xl"
@@ -98,9 +102,9 @@ export default async function HomePage() {
               className="mb-8"
             />
             <ProductCarousel
-              products={demoProducts}
+              products={trendingNowProducts}
               autoplay={true}
-              autoplayInterval={3500}
+              autoplayInterval={4500}
               className="rounded-2xl"
             />
           </div>
@@ -155,38 +159,7 @@ export default async function HomePage() {
             </div>
           </div>
         }
-      >
-        <section className="px-4 pb-16 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto text-center">
-            <div className="p-8 border bg-gradient-to-br from-sunrise-amber/5 to-ocean-crest/5 rounded-3xl md:p-12 border-sunrise-amber/10">
-              <div className="space-y-6">
-                <h2 className="text-3xl font-bold md:text-4xl text-midnight-slate font-poppins">
-                  Transform Your Space Today
-                </h2>
-                <p className="max-w-2xl mx-auto text-lg text-ironstone-gray font-inter">
-                  Join thousands of satisfied customers who have brought the
-                  beauty of Islamic art into their homes. Browse our complete
-                  collection and find the perfect pieces for your space.
-                </p>
-                <div className="flex flex-col justify-center gap-4 sm:flex-row">
-                  <a
-                    href="/collection"
-                    className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold transition-all duration-300 shadow-lg text-porcelain-white bg-sunrise-amber hover:bg-sunrise-amber/90 rounded-xl hover:shadow-xl hover:scale-105 font-poppins"
-                  >
-                    Shop All Products
-                  </a>
-                  <a
-                    href="/demo"
-                    className="inline-flex items-center justify-center px-8 py-3 text-lg font-semibold transition-all duration-300 border-2 text-ocean-crest border-ocean-crest hover:bg-ocean-crest hover:text-porcelain-white rounded-xl font-poppins"
-                  >
-                    View Demo
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-      </Suspense>
+      ></Suspense>
       <WhatsAppChat />
     </div>
   );

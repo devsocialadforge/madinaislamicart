@@ -1,5 +1,5 @@
 "use client";
-
+import { Button } from "@/components/ui/button";
 import * as React from "react";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
@@ -13,18 +13,25 @@ import {
 } from "@/components/ui/carousel";
 import { urlFor } from "@/lib/sanity/client";
 
-// Match your banner schema
+// Updated to match your banner schema
 type Banner = {
   _id: string;
-  title?: string;
+  title: string;
   description?: string;
-  ctaText?: string;
-  ctaLink?: string;
+  buttonText: string;
+  buttonLink: string;
   order: number;
-  isActive?: boolean;
-  bannerImage: {
+  mobileImage: {
     asset: any;
-    alt?: string;
+    alt: string;
+  };
+  tabletImage: {
+    asset: any;
+    alt: string;
+  };
+  desktopImage: {
+    asset: any;
+    alt: string;
   };
 };
 
@@ -46,11 +53,17 @@ export const HeroCarousel = ({
   const [count, setCount] = React.useState(0);
 
   // Filter active banners and sort by order
+
   const items = React.useMemo(
     () =>
       banners
-        .filter((b) => b?.isActive !== false && b?.bannerImage?.asset)
-        .sort((a, b) => (a.order ?? 9999) - (b.order ?? 9999)),
+        .filter(
+          (b) =>
+            b?.mobileImage?.asset &&
+            b?.tabletImage?.asset &&
+            b?.desktopImage?.asset
+        )
+        .sort((a, b) => a.order - b.order),
     [banners]
   );
 
@@ -69,7 +82,7 @@ export const HeroCarousel = ({
 
   return (
     <div
-      className={`w-full relative  mx-auto rounded-2xl overflow-hidden shadow-2xl ${className}`}
+      className={`w-full relative mx-auto rounded-2xl overflow-hidden shadow-2xl ${className}`}
     >
       <Carousel
         setApi={setApi}
@@ -84,23 +97,26 @@ export const HeroCarousel = ({
       >
         <CarouselContent>
           {items.map((banner, index) => {
-            const imageUrl_mobile = urlFor(banner.bannerImage)
-              .width(1000)
+            // Mobile image (700x300)
+            const imageUrl_mobile = urlFor(banner.mobileImage)
+              .width(700)
               .height(300)
               .quality(90)
               .auto("format")
               .url();
 
-            const imageUrl_desktop = urlFor(banner.bannerImage)
-              .width(1920)
-              .height(400)
+            // Tablet image (1400x600)
+            const imageUrl_tablet = urlFor(banner.tabletImage)
+              .width(1400)
+              .height(600)
               .quality(90)
               .auto("format")
               .url();
 
-            const imageUrl_tablet = urlFor(banner.bannerImage)
-              .width(1000)
-              .height(300)
+            // Desktop image (3000x720)
+            const imageUrl_desktop = urlFor(banner.desktopImage)
+              .width(2330)
+              .height(550)
               .quality(90)
               .auto("format")
               .url();
@@ -108,43 +124,49 @@ export const HeroCarousel = ({
             return (
               <CarouselItem key={banner._id}>
                 <div className="relative w-full overflow-hidden">
-                  <Image
-                    src={imageUrl_mobile}
-                    alt={banner.bannerImage.alt || banner.title || "Banner"}
-                    width={1000}
-                    height={300}
-                    priority={priorityFirst && index === 0}
-                    className="object-cover w-full h-full md:hidden"
-                  />
+                  {banner.buttonLink && (
+                    <a href={banner.buttonLink}>
+                      {/* Mobile Image */}
+                      <Image
+                        src={imageUrl_mobile}
+                        alt={banner.mobileImage.alt}
+                        width={700}
+                        height={300}
+                        priority={priorityFirst && index === 0}
+                        className="object-cover w-full h-full md:hidden"
+                      />
 
-                  <Image
-                    src={imageUrl_tablet}
-                    alt={banner.bannerImage.alt || banner.title || "Banner"}
-                    width={1000}
-                    height={300}
-                    priority={priorityFirst && index === 0}
-                    className="hidden object-cover w-full h-full md:block lg:hidden "
-                  />
-                  <Image
-                    src={imageUrl_desktop}
-                    width={1920}
-                    height={400}
-                    alt={banner.bannerImage.alt || banner.title || "Banner"}
-                    priority={priorityFirst && index === 0}
-                    className="hidden object-cover w-full h-full lg:block"
-                  />
+                      {/* Tablet Image */}
+                      <Image
+                        src={imageUrl_tablet}
+                        alt={banner.tabletImage.alt}
+                        width={1400}
+                        height={600}
+                        priority={priorityFirst && index === 0}
+                        className="hidden object-cover w-full h-full md:block lg:hidden"
+                      />
 
-                  {/* Beautiful Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                      {/* Desktop Image */}
+                      <Image
+                        src={imageUrl_desktop}
+                        alt={banner.desktopImage.alt}
+                        width={2300}
+                        height={550}
+                        priority={priorityFirst && index === 0}
+                        className="hidden object-cover w-full h-full lg:block"
+                      />
+
+                      {/* Optional: Banner content overlay */}
+                    </a>
+                  )}
                 </div>
               </CarouselItem>
             );
           })}
         </CarouselContent>
 
-        {/* Beautiful Navigation Controls */}
-        <div className="absolute inset-x-0 bottom-0 z-50 flex items-center justify-center gap-2 pb-6">
+        {/* Navigation dots */}
+        <div className="absolute inset-x-0 bottom-[-24px] sm:bottom-[-12px]  z-50 flex items-center justify-center gap-2 pb-6">
           <div className="flex gap-2 px-4 py-2 rounded-full bg-black/30 backdrop-blur-sm">
             {Array.from({ length: count }).map((_, i) => (
               <button
@@ -161,9 +183,9 @@ export const HeroCarousel = ({
           </div>
         </div>
 
-        {/* Beautiful Arrow Navigation */}
-        <CarouselPrevious className="text-white transition-all duration-300 shadow-lg left-4 bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/30 hover:text-white hover:scale-110" />
-        <CarouselNext className="text-white transition-all duration-300 shadow-lg right-4 bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/30 hover:text-white hover:scale-110" />
+        {/* Arrow navigation */}
+        <CarouselPrevious className="transition-all duration-300 shadow-lg text-porcelain-white bg-midnight-slate left-4 border-ocean-crest/30 hover:bg-sunrise-amber hover:text-porcelain-white hover:scale-110 font-poppins" />
+        <CarouselNext className="transition-all duration-300 shadow-lg text-porcelain-white bg-midnight-slate right-4 border-ocean-crest/30 hover:bg-sunrise-amber hover:text-porcelain-white hover:scale-110 font-poppins" />
       </Carousel>
     </div>
   );
