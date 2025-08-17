@@ -3,7 +3,6 @@ import { Inter, Poppins, Playfair_Display } from "next/font/google";
 import "../globals.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import WhatsAppChat from "@/components/WhatsAppChat";
 import NavigationButtons from "@/components/NavigationButtons";
 
 const inter = Inter({ subsets: ["latin"] });

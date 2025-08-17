@@ -1,7 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Link from "next/link";
-
+import Image from "next/image";
 export const metadata: Metadata = {
   title: "404 - Page Not Found",
   description: "The page you are looking for does not exist.",
@@ -23,7 +23,13 @@ export default function GlobalNotFound() {
         />
       </head>
       <body className="flex flex-col items-center justify-center min-h-screen px-4 bg-cloud-mist sm:px-6 lg:px-8">
-        <div className="max-w-md space-y-6 text-center sm:space-y-8 sm:max-w-lg">
+        <div className="flex flex-col items-center justify-center max-w-md space-y-6 text-center sm:space-y-8 sm:max-w-lg">
+          <Image
+            src="/images/whatsapp-profile-image-1.png"
+            alt="404"
+            width={200}
+            height={200}
+          />
           {/* Large 404 Heading */}
           <h1 className="text-8xl sm:text-9xl lg:text-[12rem] font-bold text-midnight-slate font-poppins leading-none">
             404

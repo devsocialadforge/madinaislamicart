@@ -191,7 +191,10 @@ export const SINGLE_PRODUCT_QUERY = `*[_type == "product" && slug.current == $pr
     name,
     slug
   },
-  description,
+  "description": pt::text(description),
+  rating,
+  reviewCount,
+  size,
   _createdAt
 }`;
 

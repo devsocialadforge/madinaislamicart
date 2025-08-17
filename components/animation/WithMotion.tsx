@@ -51,7 +51,8 @@ export function withMotion<T extends AnyComponent>(Base: T) {
       return React.createElement(Base as any, { ref, ...clean });
     }
 
-    const MotionBase = motion(Base as any);
+    // Use motion.create() instead of deprecated motion()
+    const MotionBase = motion.create(Base as any);
     return <MotionBase ref={ref} {...(props as any)} />;
   });
 

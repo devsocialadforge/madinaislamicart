@@ -37,12 +37,13 @@ export default async function CollectionPage({ params }: Props) {
             alt={currentCategory?.name || ""}
             width={50}
             height={50}
-            className="object-cover rounded-full"
+            className="object-cover border-2 rounded-full border-ocean-crest"
           />
 
           <h1 className="mb-2 text-3xl font-bold capitalize text-midnight-slate font-playfair">
             {currentCategory?.name || slug} Collection
           </h1>
+
           <p className="text-ironstone-gray font-poppins">
             {products.length} products available
           </p>

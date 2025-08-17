@@ -13,6 +13,7 @@ export interface Product {
   price: number;
   discountPercentage?: number;
   discountPrice?: number;
+  description?: string;
   stockQuantity: boolean;
   images: Array<{
     asset: { url: string };
@@ -22,6 +23,9 @@ export interface Product {
     name: string;
     slug: { current: string };
   };
+  rating?: number;
+  reviewCount?: number;
+  size?: string;
 }
 
 interface ProductCardProps {
@@ -54,7 +58,7 @@ export function ProductCard({
       transition={{ duration: 0.5 }}
     >
       <Link
-        href={`/products/${category?.slug?.current || "uncategorized"}`}
+        href={`/product/${product?.slug?.current || "uncategorized"}`}
         className={cn(
           "group relative bg-porcelain-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 block",
           className
