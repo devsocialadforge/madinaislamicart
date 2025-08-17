@@ -72,11 +72,7 @@ export default async function HomePage() {
       >
         <section className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
           <div className="mx-auto">
-            <SectionHeader
-              title="Most Popular"
-              subtitle="Bestselling pieces loved by our customers worldwide"
-              className="mb-8"
-            />
+            <SectionHeader title="Most Popular" className="mb-8" />
             <ProductCarousel
               products={mostPopularProducts}
               autoplay={true}
@@ -98,11 +94,7 @@ export default async function HomePage() {
       >
         <section className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
           <div className="mx-auto">
-            <SectionHeader
-              title="Trending Now"
-              subtitle="The latest additions to our collection that everyone's talking about"
-              className="mb-8"
-            />
+            <SectionHeader title="Trending Now" className="mb-8" />
             <ProductCarousel
               products={trendingNowProducts}
               autoplay={true}

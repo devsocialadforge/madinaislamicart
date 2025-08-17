@@ -184,8 +184,8 @@ export const HeroCarousel = ({
         </div>
 
         {/* Arrow navigation */}
-        <CarouselPrevious className="transition-all duration-300 shadow-lg text-porcelain-white bg-midnight-slate left-4 border-ocean-crest/30 hover:bg-sunrise-amber hover:text-porcelain-white hover:scale-110 font-poppins" />
-        <CarouselNext className="transition-all duration-300 shadow-lg text-porcelain-white bg-midnight-slate right-4 border-ocean-crest/30 hover:bg-sunrise-amber hover:text-porcelain-white hover:scale-110 font-poppins" />
+        <CarouselPrevious className="hidden transition-all duration-300 shadow-lg text-porcelain-white bg-midnight-slate left-4 border-ocean-crest/30 hover:bg-sunrise-amber hover:text-porcelain-white hover:scale-110 font-poppins" />
+        <CarouselNext className="hidden transition-all duration-300 shadow-lg text-porcelain-white bg-midnight-slate right-4 border-ocean-crest/30 hover:bg-sunrise-amber hover:text-porcelain-white hover:scale-110 font-poppins" />
       </Carousel>
     </div>
   );

@@ -32,7 +32,7 @@ export function CategoriesGrid({
   const displayedCategories = categories.slice(0, maxItems);
 
   return (
-    <div className={cn("w-full", className)}>
+    <div className={cn("w-full flex items-center justify-center", className)}>
       <div className="grid grid-cols-3 gap-3 sm:grid-cols-4 lg:grid-cols-6 md:gap-8">
         {displayedCategories.map((category, index) => (
           <motion.div

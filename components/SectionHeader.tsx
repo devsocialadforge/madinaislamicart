@@ -25,11 +25,6 @@ export function SectionHeader({
       <h2 className="text-lg font-bold text-gray-900 md:text-2xl lg:text-3xl font-inter">
         {title}
       </h2>
-      {subtitle && (
-        <p className="max-w-2xl text-base text-gray-600 md:text-lg font-inter">
-          {subtitle}
-        </p>
-      )}
     </div>
   );
 }
