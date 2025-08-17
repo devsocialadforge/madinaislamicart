@@ -2,7 +2,7 @@ import { Suspense } from "react";
 import { getAllProducts } from "@/lib/sanity/fetch";
 import { CollectionClient } from "@/components/collection";
 
-export const revalidate = 300; // 5 minutes
+export const revalidate = 600; // 10 minutes
 
 export default async function CollectionPage() {
   // Just fetch all products - no searchParams needed

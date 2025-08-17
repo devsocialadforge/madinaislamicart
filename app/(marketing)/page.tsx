@@ -12,7 +12,7 @@ import { getCategories } from "@/lib/sanity/fetch";
 import { getMostPopularProducts } from "@/lib/sanity/fetch";
 import { getTrendingNowProducts } from "@/lib/sanity/fetch";
 
-export const revalidate = 10; // 5 minutes
+export const revalidate = 600; // 10 minutes
 
 export default async function HomePage() {
   const banners = await getBanners();
