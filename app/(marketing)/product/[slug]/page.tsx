@@ -28,8 +28,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const discountPercentage =
     ((product.price - finalPrice) / product.price) * 100;
   return (
-    <div className="min-h-screen mt-20 bg-white">
-      hi
+    <div className="min-h-screen mt-20 bg-porcelain-white text-midnight-slate">
       <div className="px-4 py-8 mx-auto max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
           {/* Product Images Section - Client Component */}
@@ -43,14 +42,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {/* Product Header */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium text-gray-600">
+                <span className="text-sm font-medium text-midnight-slate/70">
                   {product.category.name}
                 </span>
                 <div className="flex items-center gap-2">
                   <span
                     className={cn(
                       "text-sm font-medium",
-                      product.stockQuantity ? "text-green-600" : "text-red-600"
+                      product.stockQuantity
+                        ? "text-ocean-crest"
+                        : "text-ironstone-gray"
                     )}
                   >
                     {product.stockQuantity ? "In Stock" : "Out of Stock"}
@@ -58,7 +59,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </div>
               </div>
 
-              <h1 className="text-2xl font-bold leading-tight text-gray-900 lg:text-3xl">
+              <h1 className="text-2xl font-bold leading-tight font-poppins text-midnight-slate lg:text-3xl">
                 {product.name}
               </h1>
 
@@ -71,13 +72,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         className={cn(
                           "w-5 h-5",
                           i < Math.floor(product.rating!)
-                            ? "text-yellow-400 fill-current"
-                            : "text-gray-300"
+                            ? "text-sunrise-amber fill-current"
+                            : "text-ironstone-gray/30"
                         )}
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-midnight-slate/70">
                     {product.rating} ({product.reviewCount} reviews)
                   </span>
                 </div>
@@ -85,10 +86,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
               {product.size && (
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium text-gray-700">
+                  <span className="text-sm font-medium text-midnight-slate">
                     Size:
                   </span>
-                  <span className="text-sm text-gray-600">{product.size}</span>
+                  <span className="text-sm text-midnight-slate/80">
+                    {product.size}
+                  </span>
                 </div>
               )}
             </div>
@@ -96,17 +99,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {/* Pricing */}
             <div className="space-y-2">
               <div className="flex items-center gap-3">
-                <span className="text-3xl font-bold text-gray-900">
+                <span className="text-3xl font-bold text-midnight-slate">
                   ₹{finalPrice.toLocaleString()}
                 </span>
                 {product.discountPrice && (
-                  <span className="text-xl text-gray-500 line-through">
+                  <span className="text-xl line-through text-midnight-slate/50">
                     ₹{product.price.toLocaleString()}
                   </span>
                 )}
               </div>
               {savings > 0 && (
-                <p className="font-medium text-green-600">
+                <p className="font-medium text-sunrise-amber">
                   You save ₹{savings.toLocaleString()}
                 </p>
               )}
@@ -115,8 +118,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
             {/* Description */}
             {product.description && (
               <div className="space-y-2">
-                <h3 className="font-semibold text-gray-900">Description</h3>
-                <p className="leading-relaxed text-gray-600">
+                <h3 className="font-semibold font-poppins text-midnight-slate">
+                  Description
+                </h3>
+                <p className="leading-relaxed text-midnight-slate/80">
                   {product.description}
                 </p>
               </div>
@@ -144,18 +149,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <ProductInteractions product={product} finalPrice={finalPrice} />
 
             {/* Trust Badges */}
-            <div className="grid grid-cols-3 gap-4 pt-6 border-t">
+            <div className="grid grid-cols-3 gap-4 pt-6 border-t border-ironstone-gray/20">
               <div className="space-y-2 text-center">
-                <Truck className="w-6 h-6 mx-auto text-green-600" />
-                <p className="text-xs text-gray-600">Free Shipping</p>
+                <Truck className="w-6 h-6 mx-auto text-ocean-crest" />
+                <p className="text-xs text-midnight-slate/70">Free Shipping</p>
               </div>
               <div className="space-y-2 text-center">
-                <Shield className="w-6 h-6 mx-auto text-blue-600" />
-                <p className="text-xs text-gray-600">Secure Payment</p>
+                <Shield className="w-6 h-6 mx-auto text-ocean-crest" />
+                <p className="text-xs text-midnight-slate/70">Secure Payment</p>
               </div>
               <div className="space-y-2 text-center">
-                <RotateCcw className="w-6 h-6 mx-auto text-purple-600" />
-                <p className="text-xs text-gray-600">Easy Returns</p>
+                <RotateCcw className="w-6 h-6 mx-auto text-ocean-crest" />
+                <p className="text-xs text-midnight-slate/70">Easy Returns</p>
               </div>
             </div>
           </div>
