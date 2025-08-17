@@ -1,16 +1,18 @@
 import { Suspense } from "react";
-import { CategoriesGrid, demoCategories } from "@/components/CategoriesGrid";
+import { CategoriesGrid } from "@/components/CategoriesGrid";
 import { SectionHeader } from "@/components/SectionHeader";
 import { ReviewsStrip } from "@/components/ReviewsStrip";
 import { getBanners } from "@/lib/sanity/fetch";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { ProductCarousel } from "@/components/ProductCarouselMulti";
-import { demoProducts } from "@/components/ProductCard";
+
 import { getReviews } from "@/lib/sanity/fetch";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import { getCategories } from "@/lib/sanity/fetch";
 import { getMostPopularProducts } from "@/lib/sanity/fetch";
 import { getTrendingNowProducts } from "@/lib/sanity/fetch";
+
+export const revalidate = 10; // 5 minutes
 
 export default async function HomePage() {
   const banners = await getBanners();

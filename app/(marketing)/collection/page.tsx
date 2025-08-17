@@ -2,20 +2,10 @@ import { Suspense } from "react";
 import { getAllProducts } from "@/lib/sanity/fetch";
 import { CollectionClient } from "@/components/collection";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300; // 5 minutes
 
-export default async function CollectionPage({
-  searchParams,
-}: {
-  searchParams: Promise<{
-    search?: string | undefined;
-    sort?: string | undefined;
-    minPrice?: string | undefined;
-    maxPrice?: string | undefined;
-  }>;
-}) {
-  // Await searchParams and fetch all products on server
-  const resolvedSearchParams = await searchParams;
+export default async function CollectionPage() {
+  // Just fetch all products - no searchParams needed
   const allProducts = await getAllProducts();
 
   return (
@@ -24,7 +14,7 @@ export default async function CollectionPage({
         <Suspense fallback={<CollectionSkeleton />}>
           <CollectionClient
             initialProducts={allProducts}
-            searchParams={resolvedSearchParams}
+            // Remove searchParams prop since it's not used
           />
         </Suspense>
       </div>

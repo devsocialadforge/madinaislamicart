@@ -17,23 +17,16 @@ interface FilterState {
 
 interface CollectionClientProps {
   initialProducts: Product[];
-  searchParams?: {
-    search?: string;
-    sort?: string;
-    minPrice?: string;
-    maxPrice?: string;
-  };
 }
 
 export default function CollectionClient({
   initialProducts,
-  searchParams = {},
 }: CollectionClientProps) {
   const [filters, setFilters] = useState<FilterState>({
-    search: searchParams.search || "",
-    sort: (searchParams.sort as SortOption) || "best-offer",
-    minPrice: Number(searchParams.minPrice) || 0,
-    maxPrice: Number(searchParams.maxPrice) || 10000,
+    search: "",
+    sort: "best-offer",
+    minPrice: 0,
+    maxPrice: 10000,
   });
 
   const [showMobileFilters, setShowMobileFilters] = useState(false);
