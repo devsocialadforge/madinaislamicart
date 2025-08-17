@@ -51,7 +51,7 @@ export function CategoriesGrid({
             className="group"
           >
             <Link
-              href={`/collection/${category.slug.current}`}
+              href={`/collections/${category.slug.current}`} // Keep /collections/ route
               className="block space-y-3 text-center"
               aria-label={`Browse ${category.name} collection`}
             >

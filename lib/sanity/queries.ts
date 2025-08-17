@@ -148,3 +148,70 @@ export const SEARCH_PRODUCTS_QUERY = `*[_type == "product" && name match $search
   description,
   _createdAt
 }`;
+
+// Products by Category query for dynamic category pages
+export const PRODUCTS_BY_CATEGORY_QUERY = `*[_type == "product" && category->slug.current == $categorySlug] | order(priority asc, _createdAt desc) {
+  _id,
+  name,
+  slug,
+  price,
+  discountPercentage,
+  discountPrice,
+  stockQuantity,
+  images[] {
+    asset-> {
+      url
+    },
+    alt
+  },
+  category-> {
+    name,
+    slug
+  },
+  description,
+  _createdAt
+}`;
+
+// Single Product query for individual product pages
+export const SINGLE_PRODUCT_QUERY = `*[_type == "product" && slug.current == $productSlug][0] {
+  _id,
+  name,
+  slug,
+  price,
+  discountPercentage,
+  discountPrice,
+  stockQuantity,
+  images[] {
+    asset-> {
+      url
+    },
+    alt
+  },
+  category-> {
+    name,
+    slug
+  },
+  description,
+  _createdAt
+}`;
+
+// Related Products query (products from same category, excluding current product)
+export const RELATED_PRODUCTS_QUERY = `*[_type == "product" && category->slug.current == $categorySlug && slug.current != $currentProductSlug] | order(priority asc, _createdAt desc) [0...4] {
+  _id,
+  name,
+  slug,
+  price,
+  discountPercentage,
+  discountPrice,
+  stockQuantity,
+  images[] {
+    asset-> {
+      url
+    },
+    alt
+  },
+  category-> {
+    name,
+    slug
+  }
+}`;

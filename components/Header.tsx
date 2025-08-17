@@ -279,7 +279,7 @@ const Header = () => {
                 className="pt-4 border-t border-gray-700"
               >
                 <a
-                  href="/collection"
+                  href="/collections"
                   className="block w-full px-6 py-3 font-medium text-center text-white transition-colors duration-200 rounded-lg bg-sunrise-amber hover:bg-deep-emerald font-poppins"
                 >
                   Shop Now

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
+import { urlFor } from "@/lib/sanity/client";
 
 export interface Product {
   _id: string;
@@ -26,24 +27,25 @@ export interface Product {
 interface ProductCardProps {
   product: Product;
   className?: string;
+  index?: number; // Add index prop
 }
 
-export function ProductCard({ product, className }: ProductCardProps) {
-  const {
-    name,
-    price,
-    discountPercentage = 0,
-    discountPrice,
-    stockQuantity,
-    images,
-    category,
-  } = product;
+export function ProductCard({
+  product,
+  className,
+  index = 0,
+}: ProductCardProps) {
+  const { name, price, discountPrice, stockQuantity, images, category } =
+    product;
 
-  const finalDiscountPrice =
-    discountPrice ||
-    (discountPercentage > 0 ? price * (1 - discountPercentage / 100) : null);
-  const hasDiscount = discountPercentage > 0 || discountPrice;
+  const finalDiscountPercentage: number = discountPrice
+    ? ((price - discountPrice) / price) * 100
+    : 0;
+
   const mainImage = images?.[0];
+
+  // Automatically prioritize first 4 images
+  const shouldPrioritize = index < 4;
 
   return (
     <motion.div
@@ -52,7 +54,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
       transition={{ duration: 0.5 }}
     >
       <Link
-        href={`/collection/${category?.slug?.current || "uncategorized"}`}
+        href={`/products/${category?.slug?.current || "uncategorized"}`}
         className={cn(
           "group relative bg-porcelain-white rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:-translate-y-1 block",
           className
@@ -62,9 +64,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
         <div className="relative overflow-hidden aspect-square bg-cloud-mist">
           {mainImage ? (
             <Image
-              src={mainImage.asset.url}
+              src={urlFor(mainImage).url() || ""}
               alt={mainImage.alt || name}
               fill
+              priority={shouldPrioritize} // Auto-prioritize
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             />
@@ -78,13 +81,14 @@ export function ProductCard({ product, className }: ProductCardProps) {
 
           {/* Product Badges - Removed Most Popular and Trending */}
           {/* Only Discount Badge remains */}
-          {hasDiscount && (
-            <div className="absolute top-2 sm:top-3 right-2 sm:right-3">
-              <span className="px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full shadow-sm font-poppins">
-                {discountPercentage > 0 ? `-${discountPercentage}%` : "Sale"}
-              </span>
-            </div>
-          )}
+
+          <div className="absolute top-2 sm:top-3 right-2 sm:right-3">
+            <span className="px-2 py-1 text-xs font-bold text-white bg-red-500 rounded-full shadow-sm font-poppins">
+              {finalDiscountPercentage > 0
+                ? `${finalDiscountPercentage.toFixed(0)}%`
+                : "Sale"}
+            </span>
+          </div>
         </div>
 
         {/* Product Info */}
@@ -109,10 +113,10 @@ export function ProductCard({ product, className }: ProductCardProps) {
           {/* Pricing - Cleaner discount display */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              {hasDiscount && finalDiscountPrice ? (
+              {finalDiscountPercentage ? (
                 <>
                   <span className="text-lg font-semibold font-poppins sm:text-xl text-midnight-slate">
-                    ₹{finalDiscountPrice.toFixed(2)}
+                    ₹{discountPrice?.toFixed(2)}
                   </span>
                   <span className="text-xs text-gray-500 line-through font-inter sm:text-sm">
                     ₹{price.toFixed(2)}

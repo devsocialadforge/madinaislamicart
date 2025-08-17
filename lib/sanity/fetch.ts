@@ -7,6 +7,9 @@ import {
   REVIEWS_QUERY,
   ALL_PRODUCTS_QUERY,
   SEARCH_PRODUCTS_QUERY,
+  PRODUCTS_BY_CATEGORY_QUERY,
+  SINGLE_PRODUCT_QUERY,
+  RELATED_PRODUCTS_QUERY,
 } from "./queries";
 
 import type { Banner, Review } from "./types";
@@ -81,6 +84,50 @@ export async function searchProducts(searchTerm: string): Promise<Product[]> {
     });
   } catch (error) {
     console.error("Error searching products:", error);
+    return [];
+  }
+}
+
+// Fetch products by category
+export async function getProductsByCategory(
+  categorySlug: string
+): Promise<Product[]> {
+  try {
+    return await sanityClient.fetch(PRODUCTS_BY_CATEGORY_QUERY, {
+      categorySlug,
+    });
+  } catch (error) {
+    console.error("Error fetching products by category:", error);
+    return [];
+  }
+}
+
+// Fetch single product by slug
+export async function getProductBySlug(
+  productSlug: string
+): Promise<Product | null> {
+  try {
+    return await sanityClient.fetch(SINGLE_PRODUCT_QUERY, {
+      productSlug,
+    });
+  } catch (error) {
+    console.error("Error fetching product by slug:", error);
+    return null;
+  }
+}
+
+// Fetch related products
+export async function getRelatedProducts(
+  categorySlug: string,
+  currentProductSlug: string
+): Promise<Product[]> {
+  try {
+    return await sanityClient.fetch(RELATED_PRODUCTS_QUERY, {
+      categorySlug,
+      currentProductSlug,
+    });
+  } catch (error) {
+    console.error("Error fetching related products:", error);
     return [];
   }
 }
