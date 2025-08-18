@@ -81,7 +81,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16 lg:h-20">
           {/* Logo */}
           <motion.div
-            className="flex-shrink-0"
+            className="flex-shrink-0 hidden lg:block"
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
@@ -303,8 +303,27 @@ const Header = () => {
             </motion.a>
           </div>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center justify-center gap-8 lg:hidden">
+          {/* Mobile Menu Button and Cart */}
+          <div className="flex items-center justify-between w-full gap-8 lg:hidden">
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={toggleMenu}
+              className="text-white transition-colors duration-200 hover:text-sunrise-amber"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </motion.button>
+
+            {/* brand name and description */}
+            <div>
+              <h1 className="text-xl font-semibold text-white font-playfair lg:text-2xl">
+                Madina Islamic Art
+              </h1>
+              <p className="text-xs text-cloud-mist font-inter">
+                Premium Islamic Artwork
+              </p>
+            </div>
+
             <div className="relative">
               <motion.button
                 whileHover={{ scale: 1.05 }}
@@ -411,14 +430,6 @@ const Header = () => {
                 )}
               </AnimatePresence>
             </div>
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              onClick={toggleMenu}
-              className="text-white transition-colors duration-200 hover:text-sunrise-amber"
-              aria-label="Toggle menu"
-            >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </motion.button>
           </div>
         </div>
       </div>
