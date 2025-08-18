@@ -3,7 +3,8 @@ import { cn } from "@/lib/utils";
 import { Star, Truck, Shield, RotateCcw } from "lucide-react";
 import { ProductInteractions } from "@/components/product/ProductInteractions";
 import { ProductGallery } from "@/components/product/ProductGallery";
-import { getProductBySlug } from "@/lib/sanity/fetch";
+import { getProductBySlug, getRelatedProducts } from "@/lib/sanity/fetch";
+import { ProductCarousel } from "@/components/ProductCarouselMulti";
 
 import { notFound } from "next/navigation";
 
@@ -22,6 +23,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) {
     notFound();
   }
+
+  console.log("Product category:", product.category);
+  console.log("Category slug:", product.category.slug);
+  console.log("Category slug current:", product.category.slug.current);
+
+  // Fetch related products from the same category
+  const relatedProducts = await getRelatedProducts(
+    product.category.slug.current,
+    slug
+  );
+
+  console.log("Related products:", relatedProducts);
 
   const finalPrice = product.discountPrice || product.price;
   const savings = product.price - finalPrice;
@@ -127,24 +140,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </div>
             )}
 
-            {/* Features */}
-            {/* {product.features && product.features.length > 0 && (
-              <div className="space-y-2">
-                <h3 className="font-semibold text-gray-900">Features</h3>
-                <ul className="space-y-1">
-                  {product.features.map((feature, index) => (
-                    <li
-                      key={index}
-                      className="flex items-center gap-2 text-sm text-gray-600"
-                    >
-                      <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )} */}
-
             {/* Interactive Elements - Client Component */}
             <ProductInteractions product={product} finalPrice={finalPrice} />
 
@@ -165,6 +160,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
           </div>
         </div>
+
+        {/* Related Products Section */}
+        {relatedProducts.length > 0 && (
+          <div className="pt-8 mt-16 border-t border-ironstone-gray/20">
+            <ProductCarousel
+              products={relatedProducts}
+              title="Related Products"
+              showIndicators={true}
+              autoplay={false}
+              className="w-full"
+            />
+          </div>
+        )}
       </div>
     </div>
   );
