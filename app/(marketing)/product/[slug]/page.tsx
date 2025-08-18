@@ -5,8 +5,9 @@ import { ProductInteractions } from "@/components/product/ProductInteractions";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { getProductBySlug, getRelatedProducts } from "@/lib/sanity/fetch";
 import { ProductCarousel } from "@/components/ProductCarouselMulti";
-
 import { notFound } from "next/navigation";
+
+export const revalidate = 600; //10 minutes
 
 type ProductPageProps = {
   params: Promise<{
