@@ -36,7 +36,7 @@ export default function MobileNavButtons() {
           aria-label="Go to Collection"
           className="h-12 w-full gap-2 rounded-xl bg-brand-amber text-brand-slate active:scale-[0.98] hover:bg-brand-amber"
         >
-          <Link href="/collection">
+          <Link href="/collections">
             <Store className="size-5" />
             <span className="hidden xs:inline">Store</span>
           </Link>
