@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { ShoppingCart, Heart } from "lucide-react";
 import { useCart } from "@/store/cart";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 interface Product {
   _id: string;
@@ -30,7 +31,8 @@ export function ProductInteractions({
   const [isBuying, setIsBuying] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
 
-  const { add: addToCart, items } = useCart();
+  const { add: addToCart } = useCart();
+  const router = useRouter();
 
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
@@ -60,7 +62,7 @@ export function ProductInteractions({
     setIsBuying(true);
     handleAddToCart();
     setTimeout(() => {
-      window.location.href = "/checkout";
+      router.push("/checkout");
     }, 500);
   };
 

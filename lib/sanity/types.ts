@@ -57,4 +57,12 @@ export interface Review {
   date?: string;
   verified?: boolean;
   isApproved?: boolean;
+  productImage?: {
+    asset: { url: string };
+    alt: string;
+  };
+  productVideo?: {
+    asset: { url: string };
+    alt: string;
+  };
 }

@@ -58,7 +58,19 @@ export const REVIEWS_QUERY = `*[_type == "review" && isApproved == true] | order
   location,
   "date": _createdAt,
   verified,
-  isApproved
+  isApproved,
+  productImages[] {
+    asset-> {
+      url
+    },
+    alt
+  },
+  productVideo {
+    asset-> {
+      url
+    },
+    alt
+  }
 }`;
 
 // Most Popular Products query

@@ -20,7 +20,7 @@ export default async function HomePage() {
   const categories = await getCategories();
   const mostPopularProducts = await getMostPopularProducts();
   const trendingNowProducts = await getTrendingNowProducts();
-
+  console.log(reviews);
   return (
     <div className="w-full mx-auto space-y-5 md:space-y-7 lg:space-y-10 ">
       {/* Hero Banner Section */}
@@ -125,11 +125,6 @@ export default async function HomePage() {
       >
         <section className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
           <div className="mx-auto">
-            <SectionHeader
-              title="What Our Customers Say"
-              alignment="left"
-              className="mb-8"
-            />
             <ReviewsStrip reviews={reviews} />
           </div>
         </section>
