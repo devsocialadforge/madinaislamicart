@@ -1,10 +1,11 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
-import { MotionDiv, MotionButton } from "@/components/animation/WithMotion";
+import { MotionButton } from "@/components/animation/WithMotion";
 import { cn } from "@/lib/utils";
 import { ShoppingCart, Heart } from "lucide-react";
+import { useCart } from "@/store/cart";
+import { toast } from "sonner";
 
 interface Product {
   _id: string;
@@ -29,6 +30,8 @@ export function ProductInteractions({
   const [isBuying, setIsBuying] = useState(false);
   const [isFavorited, setIsFavorited] = useState(false);
 
+  const { add: addToCart, items } = useCart();
+
   const handleAddToCart = async () => {
     setIsAddingToCart(true);
 
@@ -37,29 +40,17 @@ export function ProductInteractions({
         id: product._id,
         name: product.name,
         price: finalPrice,
-        quantity,
+        qty: quantity,
         image: product.images[0]?.asset.url,
-        slug: product.slug.current,
-        size: product.size,
-        addedAt: new Date().toISOString(),
+        variant: product.size,
       };
 
-      const existingCart = JSON.parse(localStorage.getItem("cart") || "[]");
-      const existingItemIndex = existingCart.findIndex(
-        (item: any) => item.id === product._id
-      );
-
-      if (existingItemIndex > -1) {
-        existingCart[existingItemIndex].quantity += quantity;
-      } else {
-        existingCart.push(cartItem);
-      }
-
-      localStorage.setItem("cart", JSON.stringify(existingCart));
-      alert("Product added to cart successfully!");
+      // Add to Zustand store only
+      addToCart(cartItem);
+      toast.success("Product added to cart successfully!");
     } catch (error) {
       console.error("Error adding to cart:", error);
-      alert("Failed to add product to cart");
+      toast.error("Failed to add product to cart");
     } finally {
       setIsAddingToCart(false);
     }

@@ -4,6 +4,7 @@ import "../globals.css";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import NavigationButtons from "@/components/NavigationButtons";
+import { Toaster } from "sonner";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -43,6 +44,7 @@ export default function RootLayout({
           <NavigationButtons />
         </main>
         <Footer />
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );

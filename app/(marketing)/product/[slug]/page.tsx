@@ -24,17 +24,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  console.log("Product category:", product.category);
-  console.log("Category slug:", product.category.slug);
-  console.log("Category slug current:", product.category.slug.current);
-
   // Fetch related products from the same category
   const relatedProducts = await getRelatedProducts(
     product.category.slug.current,
     slug
   );
-
-  console.log("Related products:", relatedProducts);
 
   const finalPrice = product.discountPrice || product.price;
   const savings = product.price - finalPrice;
@@ -122,7 +116,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 )}
               </div>
               {savings > 0 && (
-                <p className="font-medium text-sunrise-amber">
+                <p className="font-medium text-green-700">
                   You save ₹{savings.toLocaleString()}
                 </p>
               )}
