@@ -204,7 +204,7 @@ export function ReviewStrip({ reviews, className }: ReviewsStripProps) {
 
             <div className="flex">
               {/* Left Side - Info */}
-              <div className="p-6 w-80 bg-gray-50">
+              <div className="hidden p-6 md:block w-80 bg-gray-50">
                 <div className="space-y-4">
                   {/* User Info */}
                   <div className="flex items-center gap-3">
