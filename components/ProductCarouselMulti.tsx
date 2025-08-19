@@ -35,11 +35,11 @@ export function ProductCarousel({
   carouselClassName,
   autoplay = false,
   autoplayInterval = 3000,
-  // slidesToShow = {
-  //   mobile: 1,
-  //   tablet: 2,
-  //   desktop: 4,
-  // },
+  slidesToShow = {
+    mobile: 1,
+    tablet: 2,
+    desktop: 4,
+  },
 }: ProductCarouselProps) {
   const [api, setApi] = React.useState<CarouselApi>();
   const [current, setCurrent] = React.useState(0);
@@ -91,14 +91,7 @@ export function ProductCarousel({
       >
         <CarouselContent className="-ml-2 md:-ml-4">
           {products.map((product) => (
-            <CarouselItem
-              key={product._id}
-              className={cn(
-                "pl-2 md:pl-4",
-                "basis-1/2 sm:basis-1/3 lg:basis-1/4 xl:basis-1/5",
-                itemClassName
-              )}
-            >
+            <CarouselItem key={product._id} className={cn(itemClassName)}>
               <ProductCard product={product} />
             </CarouselItem>
           ))}

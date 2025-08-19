@@ -47,22 +47,61 @@ export interface Banner {
 export interface Review {
   _id: string;
   name: string;
-  avatar?: {
-    asset: { url: string };
-    alt: string;
-  };
   rating: number;
   review: string;
   location?: string;
   date?: string;
   verified?: boolean;
   isApproved?: boolean;
-  productImage?: {
+  product?: {
+    _id: string;
+    name: string;
+    slug: {
+      current: string;
+    };
+    images: {
+      asset: {
+        url: string;
+      };
+      alt: string;
+    }[];
+  };
+  productImages?: {
     asset: { url: string };
     alt: string;
-  };
+  }[];
   productVideo?: {
     asset: { url: string };
     alt: string;
   };
+}
+
+export interface ProductWithReviews {
+  _id: string;
+  name: string;
+  slug: {
+    current: string;
+  };
+  price: number;
+  discountPercentage?: number;
+  discountPrice?: number;
+  stockQuantity: number;
+  images: {
+    asset: {
+      url: string;
+    };
+    alt: string;
+  }[];
+  category: {
+    name: string;
+    slug: {
+      current: string;
+    };
+  };
+  description: string;
+  rating?: number;
+  reviewCount?: number;
+  size?: string;
+  _createdAt: string;
+  reviews: Review[];
 }

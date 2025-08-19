@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { CategoriesGrid } from "@/components/CategoriesGrid";
 import { SectionHeader } from "@/components/SectionHeader";
-import { ReviewsStrip } from "@/components/ReviewsStrip";
+import { ReviewStrip } from "@/components/ReviewStrip";
 import { getBanners } from "@/lib/sanity/fetch";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { ProductCarousel } from "@/components/ProductCarouselMulti";
@@ -78,6 +78,7 @@ export default async function HomePage() {
               autoplay={true}
               autoplayInterval={3500}
               className="rounded-2xl"
+              itemClassName="basis-1/2 sm:basis-1/3 lg:basis-1/4 xl:basis-1/5"
             />
           </div>
         </section>
@@ -100,6 +101,7 @@ export default async function HomePage() {
               autoplay={true}
               autoplayInterval={4500}
               className="rounded-2xl"
+              itemClassName="basis-1/2 sm:basis-1/3 lg:basis-1/4 xl:basis-1/5"
             />
           </div>
         </section>
@@ -125,7 +127,7 @@ export default async function HomePage() {
       >
         <section className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
           <div className="mx-auto">
-            <ReviewsStrip reviews={reviews} />
+            <ReviewStrip reviews={reviews} />
           </div>
         </section>
       </Suspense>

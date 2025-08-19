@@ -68,7 +68,7 @@ export function ProductCard({
         <div className="relative overflow-hidden aspect-square bg-cloud-mist">
           {mainImage ? (
             <Image
-              src={urlFor(mainImage).url() || ""}
+              src={urlFor(mainImage).auto("format").quality(80).url() || ""}
               alt={mainImage.alt || name}
               fill
               priority={shouldPrioritize} // Auto-prioritize

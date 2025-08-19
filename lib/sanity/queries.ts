@@ -43,22 +43,62 @@ export const CATEGORIES_QUERY = `*[_type == "category"] | order(order asc) {
   "productCount": count(*[_type == "product" && references(^._id)])
 }`;
 
-// Review query
+// Review query with product reference
 export const REVIEWS_QUERY = `*[_type == "review" && isApproved == true] | order(_createdAt desc) {
   _id,
   name,
-  avatar {
-    asset-> {
-      url
-    },
-    alt
-  },
   rating,
   review,
   location,
   "date": _createdAt,
   verified,
   isApproved,
+  product-> {
+    _id,
+    name,
+    slug,
+    images[] {
+      asset-> {
+        url
+      },
+      alt
+    }
+  },
+  productImages[] {
+    asset-> {
+      url
+    },
+    alt
+  },
+  productVideo {
+    asset-> {
+      url
+    },
+    alt
+  }
+}`;
+
+// Reviews by Product query
+export const REVIEWS_BY_PRODUCT_QUERY = `*[_type == "review" && isApproved == true && references($productId)] | order(_createdAt desc) {
+  _id,
+  name,
+  rating,
+  review,
+  location,
+  "date": _createdAt,
+  verified,
+  isApproved,
+  product-> {
+    _id,
+    name,
+    slug,
+    images[] {
+      asset-> {
+        url
+      },
+      alt
+    }
+  },
   productImages[] {
     asset-> {
       url

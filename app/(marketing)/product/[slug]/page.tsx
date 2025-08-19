@@ -3,19 +3,23 @@ import { cn } from "@/lib/utils";
 import { Star, Truck, Shield, RotateCcw } from "lucide-react";
 import { ProductInteractions } from "@/components/product/ProductInteractions";
 import { ProductGallery } from "@/components/product/ProductGallery";
-import { getProductBySlug, getRelatedProducts } from "@/lib/sanity/fetch";
+import {
+  getProductBySlug,
+  getRelatedProducts,
+  getReviewsByProduct,
+} from "@/lib/sanity/fetch";
 import { ProductCarousel } from "@/components/ProductCarouselMulti";
 import { notFound } from "next/navigation";
 
-export const revalidate = 600; //10 minutes
+import { ReviewStrip } from "@/components/ReviewStrip";
+
+export const revalidate = 600; // 10 minutes
 
 type ProductPageProps = {
   params: Promise<{
     slug: string;
   }>;
 };
-
-// Server-side data fetching function
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
@@ -25,33 +29,40 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  // Fetch related products from the same category
-  const relatedProducts = await getRelatedProducts(
-    product.category.slug.current,
-    slug
-  );
+  // Reviews (not directly rendered here—but you logged them earlier)
+  const reviews = await getReviewsByProduct(product._id);
+  console.log(reviews);
+
+  // Related products from the same category (excluding current)
+  const relatedProducts =
+    (await getRelatedProducts(product.category.slug.current, slug)) || [];
 
   const finalPrice = product.discountPrice || product.price;
-  const savings = product.price - finalPrice;
+  const savings = Math.max(0, product.price - finalPrice);
   const discountPercentage =
-    ((product.price - finalPrice) / product.price) * 100;
+    product.price > 0
+      ? ((product.price - finalPrice) / product.price) * 100
+      : 0;
+
   return (
     <div className="min-h-screen mt-20 bg-porcelain-white text-midnight-slate">
       <div className="px-4 py-8 mx-auto max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
-          {/* Product Images Section - Client Component */}
-          <ProductGallery
-            images={product.images}
-            discountPercentage={discountPercentage}
-          />
+          {/* LEFT: Product Images (Sticky on lg+) */}
+          <div className="self-start lg:sticky lg:top-24">
+            <ProductGallery
+              images={product.images}
+              discountPercentage={discountPercentage}
+            />
+          </div>
 
-          {/* Product Information Section - Server Rendered */}
+          {/* RIGHT: Product Information */}
           <div className="space-y-6">
-            {/* Product Header */}
+            {/* Header */}
             <div className="space-y-4">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium text-midnight-slate/70">
-                  {product.category.name}
+                  {product?.category?.name}
                 </span>
                 <div className="flex items-center gap-2">
                   <span
@@ -71,7 +82,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 {product.name}
               </h1>
 
-              {product.rating && (
+              {!!product.rating && (
                 <div className="flex items-center gap-2">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
@@ -87,7 +98,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     ))}
                   </div>
                   <span className="text-sm text-midnight-slate/70">
-                    {product.rating} ({product.reviewCount} reviews)
+                    {product.rating} ({product.reviewCount ?? 0} reviews)
                   </span>
                 </div>
               )}
@@ -124,18 +135,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </div>
 
             {/* Description */}
-            {product.description && (
+            {!!product.description && (
               <div className="space-y-2">
                 <h3 className="font-semibold font-poppins text-midnight-slate">
                   Description
                 </h3>
                 <p className="leading-relaxed text-midnight-slate/80">
-                  {product.description}
+                  {typeof product.description === "string"
+                    ? product.description
+                    : // If you switch to PortableText later, render with a component here.
+                      ""}
                 </p>
               </div>
             )}
 
-            {/* Interactive Elements - Client Component */}
+            {/* Interactions (Add to cart / Buy now etc.) */}
             <ProductInteractions product={product} finalPrice={finalPrice} />
 
             {/* Trust Badges */}
@@ -153,21 +167,28 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <p className="text-xs text-midnight-slate/70">Easy Returns</p>
               </div>
             </div>
+            {/* Related */}
+            {relatedProducts?.length > 0 && (
+              <div className="pt-8 mt-16 border-t border-ironstone-gray/20">
+                <ProductCarousel
+                  products={relatedProducts}
+                  title="Similar Products"
+                  showIndicators={false}
+                  autoplay={false}
+                  className="w-full"
+                  itemClassName="basis-1/2 sm:basis-1/3"
+                />
+              </div>
+            )}
+            {/* reviews section */}
+            <div className="flex flex-col w-full gap-2 lg:gap-4">
+              <h2 className="text-2xl font-bold font-poppins text-midnight-slate">
+                Ratings & Reviews
+              </h2>
+              <ReviewStrip reviews={reviews} />
+            </div>
           </div>
         </div>
-
-        {/* Related Products Section */}
-        {relatedProducts.length > 0 && (
-          <div className="pt-8 mt-16 border-t border-ironstone-gray/20">
-            <ProductCarousel
-              products={relatedProducts}
-              title="Related Products"
-              showIndicators={true}
-              autoplay={false}
-              className="w-full"
-            />
-          </div>
-        )}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import {
   MOST_POPULAR_PRODUCTS_QUERY,
   TRENDING_NOW_PRODUCTS_QUERY,
   REVIEWS_QUERY,
+  REVIEWS_BY_PRODUCT_QUERY,
   ALL_PRODUCTS_QUERY,
   SEARCH_PRODUCTS_QUERY,
   PRODUCTS_BY_CATEGORY_QUERY,
@@ -36,12 +37,26 @@ export async function getCategories(): Promise<Category[]> {
   }
 }
 
-// Fetch reviews
+// Fetch reviews with product references
 export async function getReviews(): Promise<Review[]> {
   try {
     return await sanityClient.fetch(REVIEWS_QUERY);
   } catch (error) {
     console.error("Error fetching reviews:", error);
+    return [];
+  }
+}
+
+// Fetch reviews for a specific product
+export async function getReviewsByProduct(
+  productId: string
+): Promise<Review[]> {
+  try {
+    return await sanityClient.fetch(REVIEWS_BY_PRODUCT_QUERY, {
+      productId,
+    });
+  } catch (error) {
+    console.error("Error fetching reviews by product:", error);
     return [];
   }
 }
