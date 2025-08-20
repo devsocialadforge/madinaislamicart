@@ -147,6 +147,38 @@ export async function getRelatedProducts(
   }
 }
 
+// Fetch latest products with priority ordering
+export async function getLatestProducts(
+  limit: number = 20
+): Promise<Product[]> {
+  try {
+    return await sanityClient.fetch(`*[_type == "product"] | order(priority asc, _createdAt desc) [0...${limit}] {
+      _id,
+      name,
+      slug,
+      price,
+      discountPercentage,
+      discountPrice,
+      stockQuantity,
+      images[] {
+        asset-> {
+          url
+        },
+        alt
+      },
+      category-> {
+        name,
+        slug
+      },
+      description,
+      _createdAt
+    }`);
+  } catch (error) {
+    console.error("Error fetching latest products:", error);
+    return [];
+  }
+}
+
 // Generic fetch function for custom queries
 export async function fetchSanityData<T>(query: string): Promise<T[]> {
   try {

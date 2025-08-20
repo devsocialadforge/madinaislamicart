@@ -11,6 +11,9 @@ import WhatsAppChat from "@/components/WhatsAppChat";
 import { getCategories } from "@/lib/sanity/fetch";
 import { getMostPopularProducts } from "@/lib/sanity/fetch";
 import { getTrendingNowProducts } from "@/lib/sanity/fetch";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { getLatestProducts } from "@/lib/sanity/fetch";
 
 export const revalidate = 600; // 10 minutes
 
@@ -20,7 +23,7 @@ export default async function HomePage() {
   const categories = await getCategories();
   const mostPopularProducts = await getMostPopularProducts();
   const trendingNowProducts = await getTrendingNowProducts();
-  console.log(reviews);
+  const latestProducts = await getLatestProducts(20);
   return (
     <div className="w-full mx-auto space-y-5 md:space-y-7 lg:space-y-10 ">
       {/* Hero Banner Section */}
@@ -107,6 +110,36 @@ export default async function HomePage() {
         </section>
       </Suspense>
 
+      {/* Latest Products Section */}
+      <Suspense
+        fallback={
+          <div className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
+            <div className="h-8 mb-8 rounded-lg bg-cloud-mist animate-pulse" />
+            <div className="w-full h-80 bg-cloud-mist rounded-2xl animate-pulse" />
+          </div>
+        }
+      >
+        <section className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
+          <div className="mx-auto">
+            <SectionHeader title="Latest Products" className="mb-8" />
+            <ProductCarousel
+              products={latestProducts}
+              autoplay={true}
+              autoplayInterval={4500}
+              className="rounded-2xl"
+              itemClassName="basis-1/2 sm:basis-1/3 lg:basis-1/4 xl:basis-1/5"
+            />
+            <div className="flex justify-center mt-4">
+              <Link href="/collections">
+                <Button className="text-white bg-midnight-slate hover:bg-midnight-slate/80 hover:text-white">
+                  View All Products
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      </Suspense>
+
       {/* Customer Reviews Section */}
       <Suspense
         fallback={
@@ -126,7 +159,8 @@ export default async function HomePage() {
         }
       >
         <section className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
-          <div className="mx-auto">
+          <SectionHeader title="Ratings & Reviews" className="mb-8" />
+          <div className="mx-auto mt-4">
             <ReviewStrip reviews={reviews} />
           </div>
         </section>

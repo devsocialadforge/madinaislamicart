@@ -5,6 +5,7 @@ import { Search, SlidersHorizontal } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { ProductCard, Product } from "@/components/ProductCard";
 import { cn } from "@/lib/utils";
+import { usePathname } from "next/navigation";
 
 type SortOption = "best-offer" | "price-low" | "price-high";
 
@@ -22,6 +23,9 @@ interface CollectionClientProps {
 export default function CollectionClient({
   initialProducts,
 }: CollectionClientProps) {
+  const pathname = usePathname();
+  const shouldShow = pathname === "/collections";
+
   const [filters, setFilters] = useState<FilterState>({
     search: "",
     sort: "best-offer",
@@ -96,7 +100,7 @@ export default function CollectionClient({
 
   return (
     <div className="font-inter">
-      <div className="container px-4 py-6 mx-auto sm:py-8 max-w-7xl">
+      <div className="px-4 py-6 mx-auto sm:py-8 ">
         {/* Search Bar - Center Top */}
         <div className="flex justify-center mb-6 sm:mb-8">
           <div className="relative w-full max-w-md">
@@ -183,7 +187,9 @@ export default function CollectionClient({
                 <Input
                   type="number"
                   placeholder="To"
-                  value={filters.maxPrice || ""}
+                  value={
+                    filters.maxPrice === 10000 ? "" : filters.maxPrice || ""
+                  }
                   onChange={(e) =>
                     setFilters((prev) => ({
                       ...prev,
@@ -199,9 +205,11 @@ export default function CollectionClient({
 
         {/* Results Count */}
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold sm:text-2xl font-poppins text-midnight-slate">
-            See All Products
-          </h2>
+          {shouldShow && (
+            <h2 className="text-xl font-semibold sm:text-2xl font-poppins text-midnight-slate">
+              See All Products
+            </h2>
+          )}
           <span className="text-sm font-inter text-midnight-slate/70">
             {filteredProducts.length} product
             {filteredProducts.length !== 1 ? "s" : ""} found
@@ -210,7 +218,7 @@ export default function CollectionClient({
 
         {/* Products Grid */}
         {filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 sm:gap-6">
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 sm:gap-6">
             {filteredProducts.map((product) => (
               <div
                 key={product._id}

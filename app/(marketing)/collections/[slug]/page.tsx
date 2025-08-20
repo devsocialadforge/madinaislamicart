@@ -40,7 +40,7 @@ export default async function CollectionPage({ params }: Props) {
             className="object-cover border-2 rounded-full border-ocean-crest"
           />
 
-          <h1 className="mb-2 text-3xl font-bold capitalize text-midnight-slate font-playfair">
+          <h1 className="text-lg font-bold text-gray-900 md:text-2xl lg:text-3xl font-inter">
             {currentCategory?.name || slug} Collection
           </h1>
 

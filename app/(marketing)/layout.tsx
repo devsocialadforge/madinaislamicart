@@ -5,6 +5,7 @@ import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import NavigationButtons from "@/components/NavigationButtons";
 import { Toaster } from "sonner";
+import { getCategories } from "@/lib/sanity/fetch";
 
 const inter = Inter({ subsets: ["latin"] });
 const poppins = Poppins({
@@ -21,11 +22,13 @@ export const metadata: Metadata = {
   description: "Beautiful Islamic art and calligraphy",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const categories = await getCategories();
+
   return (
     <html lang="en">
       <body
@@ -38,8 +41,8 @@ export default function RootLayout({
           } as React.CSSProperties
         }
       >
-        <Header />
-        <main className="min-h-screen p-2 md:p-4 lg:p-6 w-full max-w-[2300px] mx-auto">
+        <Header categories={categories} />
+        <main className="min-h-screen p-2 pb-0 md:p-4 lg:p-6 w-full max-w-[2300px] mx-auto">
           {children}
           <NavigationButtons />
         </main>

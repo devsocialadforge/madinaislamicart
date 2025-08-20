@@ -126,6 +126,10 @@ export function ProductCarousel({
           </svg>
         </button>
 
+        <div className="text-sm font-medium text-midnight-slate">
+          {current} of {products.length}
+        </div>
+
         {showIndicators && count > 0 && (
           <div className="flex items-center gap-3">
             <div className="flex justify-center space-x-2">

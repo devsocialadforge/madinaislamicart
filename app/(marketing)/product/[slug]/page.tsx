@@ -31,7 +31,6 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   // Reviews (not directly rendered here—but you logged them earlier)
   const reviews = await getReviewsByProduct(product._id);
-  console.log(reviews);
 
   // Related products from the same category (excluding current)
   const relatedProducts =
@@ -45,7 +44,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
       : 0;
 
   return (
-    <div className="min-h-screen mt-20 bg-porcelain-white text-midnight-slate">
+    <div className="container min-h-screen mx-auto mt-20 bg-porcelain-white text-midnight-slate">
       <div className="px-4 py-8 mx-auto max-w-7xl lg:px-8">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-12">
           {/* LEFT: Product Images (Sticky on lg+) */}
@@ -181,12 +180,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
               </div>
             )}
             {/* reviews section */}
-            <div className="flex flex-col w-full gap-2 lg:gap-4">
-              <h2 className="text-2xl font-bold font-poppins text-midnight-slate">
-                Ratings & Reviews
-              </h2>
-              <ReviewStrip reviews={reviews} />
-            </div>
+            {reviews.length > 0 && (
+              <div className="flex flex-col w-full gap-2 lg:gap-4">
+                <h2 className="text-2xl font-bold font-poppins text-midnight-slate">
+                  Ratings & Reviews
+                </h2>
+                <ReviewStrip reviews={reviews} />
+              </div>
+            )}
           </div>
         </div>
       </div>

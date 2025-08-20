@@ -58,12 +58,16 @@ export function ReviewStrip({ reviews, className }: ReviewsStripProps) {
         variants={container}
         initial="hidden"
         animate="show"
-        className={cn("space-y-8", className)}
+        className={cn("space-y-6 max-h-96 overflow-y-auto", className)}
       >
         {reviews.map((rev) => (
-          <motion.article key={rev._id} variants={item} className={cn()}>
+          <motion.article
+            key={rev._id}
+            variants={item}
+            className={cn("pb-2 border-b border-gray-200")}
+          >
             {/* Top row: rating pill + headline */}
-            <div className="flex items-center gap-2 ">
+            <div className="flex items-center gap-2">
               <Badge
                 variant="secondary"
                 className="gap-1 font-medium text-white bg-emerald-600 hover:bg-emerald-600/95"

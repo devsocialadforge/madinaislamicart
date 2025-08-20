@@ -1,12 +1,21 @@
 "use client";
 import { useCart } from "@/store/cart";
 import { useState, useEffect } from "react";
-import { Menu, X, ChevronDown, ShoppingCart, User, Heart } from "lucide-react";
+import { Menu, X, ChevronDown, ShoppingCart } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
 
-const Header = () => {
+type HeaderProps = {
+  categories?: Array<{
+    _id: string;
+    name: string;
+    slug: { current: string } | string;
+    description?: string;
+  }>;
+};
+
+const Header = ({ categories }: HeaderProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCollectionOpen, setIsCollectionOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -26,38 +35,16 @@ const Header = () => {
   const toggleCollection = () => setIsCollectionOpen(!isCollectionOpen);
   const toggleCart = () => setIsCartOpen(!isCartOpen);
 
-  const collections = [
-    {
-      name: "Islamic Calligraphy",
-      description: "Beautiful Arabic calligraphy art",
-      href: "/collections/calligraphy",
-    },
-    {
-      name: "Canvas Prints",
-      description: "High-quality canvas wall art",
-      href: "/collections/canvas",
-    },
-    {
-      name: "Metal Wall Art",
-      description: "Premium metal decorative pieces",
-      href: "/collections/metal",
-    },
-    {
-      name: "Framed Artwork",
-      description: "Elegant framed Islamic art",
-      href: "/collections/framed",
-    },
-    {
-      name: "Digital Downloads",
-      description: "Instant printable Islamic designs",
-      href: "/collections/digital",
-    },
-    {
-      name: "Custom Orders",
-      description: "Personalized Islamic art pieces",
-      href: "/collections/custom",
-    },
-  ];
+  const collections =
+    categories && categories.length > 0
+      ? categories.map((c) => ({
+          name: c.name,
+          description: c.description || "",
+          href: `/collections/${
+            typeof c.slug === "string" ? c.slug : c.slug?.current
+          }`,
+        }))
+      : [];
 
   const navItems = [
     { name: "Home", href: "/" },
@@ -141,20 +128,20 @@ const Header = () => {
                         onMouseEnter={() => setIsCollectionOpen(true)}
                         onMouseLeave={() => setIsCollectionOpen(false)}
                       >
-                        <div className="overflow-hidden bg-white border border-gray-100 rounded-lg shadow-xl">
+                        <div className="overflow-hidden border border-gray-100 rounded-lg shadow-xl bg-ironstone-gray">
                           <div className="p-6">
                             <div className="grid grid-cols-1 gap-1 ">
-                              {collections.map((collection, index) => (
+                              {collections?.map((collection, index) => (
                                 <motion.a
                                   key={collection.name}
                                   href={collection.href}
-                                  className="p-4 transition-colors duration-200 rounded-lg group hover:bg-cloud-mist"
+                                  className="p-4 transition-colors duration-200 rounded-lg group font-inter"
                                   initial={{ opacity: 0, y: 20 }}
                                   animate={{ opacity: 1, y: 0 }}
                                   transition={{ delay: index * 0.05 }}
                                   whileHover={{ scale: 1.02 }}
                                 >
-                                  <h3 className="font-semibold transition-colors duration-200 font-poppins text-midnight-slate group-hover:text-ocean-crest">
+                                  <h3 className="block py-1 transition-colors duration-200 text-cloud-mist hover:text-sunrise-amber font-inter">
                                     {collection.name}
                                   </h3>
                                   <p className="mt-1 text-sm text-gray-600 font-inter">
@@ -166,7 +153,7 @@ const Header = () => {
                             <div className="pt-6 mt-6 border-t border-gray-200">
                               <a
                                 href="/collections"
-                                className="inline-flex items-center font-medium transition-colors duration-200 text-ocean-crest hover:text-sunrise-amber font-poppins"
+                                className="inline-flex items-center font-medium transition-colors duration-200 hover:text-cloud-mist text-sunrise-amber font-poppins"
                               >
                                 View All Collections
                                 <ChevronDown className="w-4 h-4 ml-1 rotate-[-90deg]" />

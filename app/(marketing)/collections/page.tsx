@@ -9,8 +9,8 @@ export default async function CollectionPage() {
   const allProducts = await getAllProducts();
 
   return (
-    <div className="min-h-screen mt-10 bg-cloud-mist">
-      <div className="container px-4 py-6 mx-auto sm:py-8">
+    <div className="container min-h-screen mx-auto mt-10 bg-cloud-mist">
+      <div className="px-4 py-6 mx-auto sm:py-8">
         <Suspense fallback={<CollectionSkeleton />}>
           <CollectionClient
             initialProducts={allProducts}
