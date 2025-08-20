@@ -161,7 +161,10 @@ export default async function HomePage() {
         <section className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
           <SectionHeader title="Ratings & Reviews" className="mb-8" />
           <div className="mx-auto mt-4">
-            <ReviewStrip reviews={reviews} />
+            <ReviewStrip
+              className="overflow-y-auto max-h-96"
+              reviews={reviews}
+            />
           </div>
         </section>
       </Suspense>

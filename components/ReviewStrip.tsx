@@ -58,7 +58,7 @@ export function ReviewStrip({ reviews, className }: ReviewsStripProps) {
         variants={container}
         initial="hidden"
         animate="show"
-        className={cn("space-y-6 max-h-96 overflow-y-auto", className)}
+        className={cn("space-y-6", className)}
       >
         {reviews.map((rev) => (
           <motion.article
@@ -278,7 +278,7 @@ export function ReviewStrip({ reviews, className }: ReviewsStripProps) {
               </div>
 
               {/* Right Side - Image/Video */}
-              <div className="relative flex-1">
+              <div className="relative flex-1 max-h-[400px] max-w-[400px] overflow-hidden">
                 {selectedImage.url.includes(".mp4") ||
                 selectedImage.url.includes(".webm") ||
                 selectedImage.url.includes(".mov") ? (
@@ -295,7 +295,7 @@ export function ReviewStrip({ reviews, className }: ReviewsStripProps) {
                     alt={selectedImage.alt}
                     width={600}
                     height={600}
-                    className="object-cover w-full h-full"
+                    className="object-cover w-full h-full overflow-hidden"
                     priority
                   />
                 )}
@@ -311,9 +311,8 @@ export function ReviewStrip({ reviews, className }: ReviewsStripProps) {
 /* ---------- helpers ---------- */
 
 function ratingHeadline(r: number) {
-  if (r >= 5) return "Fabulous!";
-  if (r >= 4.5) return "Excellent!";
-  if (r >= 4) return "Great!";
+  if (r >= 5) return "Excellent Quality!";
+  if (r >= 4) return "Very Good!";
   if (r >= 3) return "Good";
   return "Okay";
 }
