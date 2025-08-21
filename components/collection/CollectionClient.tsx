@@ -37,12 +37,12 @@ export default function CollectionClient({
 
   // Calculate offer percentage for sorting
   const calculateOfferPercentage = (product: Product): number => {
-    if (product.discountPercentage && product.discountPercentage > 0) {
-      return product.discountPercentage;
+    if (product.maxDiscountPercentage && product.maxDiscountPercentage > 0) {
+      return product.maxDiscountPercentage;
     }
-    if (product.discountPrice && product.price > product.discountPrice) {
+    if (product.discountedBasePrice && product.basePrice && product.basePrice > product.discountedBasePrice) {
       return Math.round(
-        ((product.price - product.discountPrice) / product.price) * 100
+        ((product.basePrice - product.discountedBasePrice) / product.basePrice) * 100
       );
     }
     return 0;
@@ -50,11 +50,11 @@ export default function CollectionClient({
 
   // Get effective price for sorting
   const getEffectivePrice = (product: Product): number => {
-    if (product.discountPrice) return product.discountPrice;
-    if (product.discountPercentage && product.discountPercentage > 0) {
-      return product.price * (1 - product.discountPercentage / 100);
+    if (product.discountedBasePrice) return product.discountedBasePrice;
+    if (product.maxDiscountPercentage && product.maxDiscountPercentage > 0) {
+      return (product.basePrice || 0) * (1 - product.maxDiscountPercentage / 100);
     }
-    return product.price;
+    return product.basePrice || 0;
   };
 
   // Filter and sort products
