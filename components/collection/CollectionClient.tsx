@@ -40,9 +40,15 @@ export default function CollectionClient({
     if (product.maxDiscountPercentage && product.maxDiscountPercentage > 0) {
       return product.maxDiscountPercentage;
     }
-    if (product.discountedBasePrice && product.basePrice && product.basePrice > product.discountedBasePrice) {
+    if (
+      product.discountedBasePrice &&
+      product.basePrice &&
+      product.basePrice > product.discountedBasePrice
+    ) {
       return Math.round(
-        ((product.basePrice - product.discountedBasePrice) / product.basePrice) * 100
+        ((product.basePrice - product.discountedBasePrice) /
+          product.basePrice) *
+          100
       );
     }
     return 0;
@@ -52,7 +58,9 @@ export default function CollectionClient({
   const getEffectivePrice = (product: Product): number => {
     if (product.discountedBasePrice) return product.discountedBasePrice;
     if (product.maxDiscountPercentage && product.maxDiscountPercentage > 0) {
-      return (product.basePrice || 0) * (1 - product.maxDiscountPercentage / 100);
+      return (
+        (product.basePrice || 0) * (1 - product.maxDiscountPercentage / 100)
+      );
     }
     return product.basePrice || 0;
   };

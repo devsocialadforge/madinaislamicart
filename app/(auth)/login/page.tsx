@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useAuth } from "@/store/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,7 +18,7 @@ import Link from "next/link";
 import GoogleIcon from "@/assets/icons/google_icon.svg";
 import Image from "next/image";
 
-export default function Login() {
+function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -98,7 +98,6 @@ export default function Login() {
 
           <CardContent className="space-y-2">
             {/* Google Sign In */}
-            {/* Google Sign In */}
             <div className="mb-0 text-center">
               <p className="mb-0 text-sm text-gray-600 ">
                 Recommended: Fastest & most secure
@@ -159,12 +158,6 @@ export default function Login() {
                   >
                     Password
                   </label>
-                  {/* <Link
-                    href="/forgot-password"
-                    className="text-xs text-ocean-crest hover:text-ocean-crest/80 font-inter"
-                  >
-                    Forgot password?
-                  </Link> */}
                 </div>
                 <div className="relative">
                   <Lock className="absolute w-4 h-4 transform -translate-y-1/2 left-3 top-1/2 text-ironstone-gray" />
@@ -205,5 +198,33 @@ export default function Login() {
         </Card>
       </motion.div>
     </div>
+  );
+}
+
+export default function Login() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen p-4 bg-cloud-mist">
+          <div className="w-full max-w-md">
+            <Card className="border-0 shadow-xl">
+              <CardHeader className="space-y-2 text-center">
+                <CardTitle className="text-2xl font-bold text-midnight-slate font-poppins">
+                  Welcome Back
+                </CardTitle>
+                <CardDescription className="text-ironstone-gray font-inter">
+                  Sign in to your Madina Islamic Art account
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="text-center">
+                <div className="animate-pulse">Loading...</div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      }
+    >
+      <LoginForm />
+    </Suspense>
   );
 }
