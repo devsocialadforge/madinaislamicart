@@ -7,8 +7,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
 import { useCart } from "@/store/cart";
 
 export default function CartClient() {
@@ -47,17 +45,17 @@ export default function CartClient() {
 
   const handleCheckout = async () => {
     if (items.length === 0) return;
-    
+
     setIsCheckingOut(true);
-    
+
     try {
       // Simulate a brief loading state for better UX
-      await new Promise(resolve => setTimeout(resolve, 800));
-      
+      await new Promise((resolve) => setTimeout(resolve, 800));
+
       // Navigate to checkout page
-      router.push('/checkout');
+      router.push("/checkout");
     } catch (error) {
-      console.error('Checkout error:', error);
+      console.error("Checkout error:", error);
       setIsCheckingOut(false);
     }
   };
@@ -92,7 +90,7 @@ export default function CartClient() {
                 className="flex items-center justify-between gap-3 px-1 py-4"
               >
                 <div className="flex items-center gap-3">
-                  <div className="relative w-12 h-12 overflow-hidden rounded-md bg-muted">
+                  <div className="relative w-20 h-20 overflow-hidden rounded-md bg-muted">
                     <Image
                       src={i.image || "/images/demo-product.jpeg"}
                       alt={i.name}
@@ -102,7 +100,9 @@ export default function CartClient() {
                     />
                   </div>
                   <div className="leading-tight">
-                    <p className="font-medium">{i.name}</p>
+                    <p className="text-sm font-medium md:text-base text-midnight-slate">
+                      {i.name}
+                    </p>
                     <p className="text-[10px] uppercase tracking-wide text-muted-foreground">
                       Quantity: {i.qty}
                     </p>
@@ -186,18 +186,18 @@ export default function CartClient() {
               <Button variant="outline" onClick={clear} className="flex-1 h-12">
                 Clear Cart
               </Button>
-              <Button 
+              <Button
                 onClick={handleCheckout}
                 disabled={isCheckingOut || items.length === 0}
                 className="flex-1 h-12 text-base font-semibold"
               >
                 {isCheckingOut ? (
                   <div className="flex items-center gap-2">
-                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-4 h-4 border-2 border-white rounded-full border-t-transparent animate-spin"></div>
                     Processing...
                   </div>
                 ) : (
-                  'Checkout'
+                  "Checkout"
                 )}
               </Button>
             </div>

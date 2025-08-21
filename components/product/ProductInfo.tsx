@@ -20,6 +20,7 @@ import { useCart } from "@/store/cart";
 import { useAuth } from "@/store/auth";
 import { useRouter } from "next/navigation";
 import type { Product } from "@/components/ProductCard";
+import { getReviews } from "@/lib/firestore";
 
 interface ProductInfoProps {
   product: Product;
@@ -34,6 +35,8 @@ export default function ProductInfo({
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [isFavorited, setIsFavorited] = useState(false);
   const [isBuyNowLoading, setIsBuyNowLoading] = useState(false);
+  const [rating, setRating] = useState(0);
+  const [reviewCount, setReviewCount] = useState(0);
 
   const { add: addToCart } = useCart();
   const { user } = useAuth();
@@ -41,15 +44,33 @@ export default function ProductInfo({
 
   const {
     name,
+    slug,
     description,
     basePrice,
     discountedBasePrice,
     stockQuantity,
-    category,
-    rating = 4.5,
-    reviewCount = 0,
     sizes = [], // This will now contain the full sizes array from Sanity
   } = product;
+
+  // Fetch reviews data when component mounts
+  useEffect(() => {
+    const fetchReviewsData = async () => {
+      try {
+        const reviews = await getReviews(product._id);
+        if (reviews.length > 0) {
+          const avgRating =
+            reviews.reduce((sum, review) => sum + review.rating, 0) /
+            reviews.length;
+          setRating(avgRating);
+          setReviewCount(reviews.length);
+        }
+      } catch (error) {
+        console.error("Error fetching reviews:", error);
+      }
+    };
+
+    fetchReviewsData();
+  }, [product._id]);
 
   // Get the selected size object
   const selectedSizeObj = sizes.find((size) => size.size === selectedSize);
@@ -142,7 +163,7 @@ export default function ProductInfo({
         router.push("/cart");
       } else {
         // User not authenticated, redirect to login
-        router.push("/login");
+        router.push(`/login?redirect=product/${slug.current}`);
       }
     } catch (error) {
       console.error("Buy now error:", error);
@@ -158,15 +179,6 @@ export default function ProductInfo({
 
   return (
     <div className="space-y-6">
-      {/* Breadcrumb & Category */}
-      <div className="flex items-center gap-2 text-sm text-ironstone-gray">
-        <span>Home</span>
-        <span>/</span>
-        <span>{category?.name || "Products"}</span>
-        <span>/</span>
-        <span className="font-medium text-midnight-slate">{name}</span>
-      </div>
-
       {/* Product Title */}
       <div className="space-y-2">
         <h1 className="text-2xl font-bold leading-tight md:text-3xl lg:text-4xl text-midnight-slate font-poppins">

@@ -308,13 +308,23 @@ const Header = ({ categories }: HeaderProps) => {
             </motion.button>
 
             {/* brand name and description */}
-            <div>
-              <h1 className="text-xl font-semibold text-white font-playfair lg:text-2xl">
-                Madina Islamic Art
-              </h1>
-              <p className="text-xs text-cloud-mist font-inter">
-                Premium Islamic Artwork
-              </p>
+            <motion.div
+              className="flex-shrink-0 lg:hidden"
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Link href="/" className="flex items-center space-x-5">
+                <Image
+                  src="/images/whatsapp-profile-image.jpg"
+                  alt="Madina Islamic Art"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                />
+              </Link>
+            </motion.div>
+            <div className=" lg:hidden">
+              <LoginIcon />
             </div>
 
             <div className="relative">

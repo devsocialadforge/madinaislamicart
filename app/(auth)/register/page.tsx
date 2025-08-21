@@ -15,6 +15,8 @@ import { Mail, Lock, User, Globe } from "lucide-react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import GoogleIcon from "@/assets/icons/google_icon.svg";
+import Image from "next/image";
 
 export default function Register() {
   const router = useRouter();
@@ -98,15 +100,20 @@ export default function Register() {
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-2">
             {/* Google Sign In */}
+            <div className="mb-0 text-center">
+              <p className="mb-0 text-sm text-gray-600 ">
+                Recommended: Fastest & most secure
+              </p>
+            </div>
             <Button
               onClick={handleGoogleSignIn}
               disabled={isLoading}
-              className="w-full bg-white border border-gray-300 text-midnight-slate hover:bg-gray-50 font-inter"
-              variant="outline"
+              className="w-full h-auto mt-0 text-base font-semibold bg-white border border-gray-300 text-midnight-slate hover:bg-gray-50 font-inter"
+              variant="default"
             >
-              <Globe className="w-4 h-4 mr-2" />
+              <Image src={GoogleIcon} alt="Google" width={40} height={40} />
               Continue with Google
             </Button>
 
@@ -225,11 +232,17 @@ export default function Register() {
             {/* Terms and Privacy */}
             <p className="text-xs text-center text-ironstone-gray font-inter">
               By creating an account, you agree to our{" "}
-              <Link href="/terms" className="text-ocean-crest hover:text-ocean-crest/80">
+              <Link
+                href="/terms"
+                className="text-ocean-crest hover:text-ocean-crest/80"
+              >
                 Terms of Service
               </Link>{" "}
               and{" "}
-              <Link href="/privacy" className="text-ocean-crest hover:text-ocean-crest/80">
+              <Link
+                href="/privacy"
+                className="text-ocean-crest hover:text-ocean-crest/80"
+              >
                 Privacy Policy
               </Link>
             </p>

@@ -8,7 +8,7 @@ export const revalidate = 0; // always fresh (tweak as you like)
 
 export default async function CartPage() {
   return (
-    <div className="w-full mt-20 max-w-[800px] px-4 pt-6 pb-24 mx-auto">
+    <div className="w-full mt-20 max-w-[800px] md:px-4 pt-6 pb-24 mx-auto">
       <h1 className="mb-4 text-center text-sm tracking-[0.2em] text-muted-foreground">
         SHOPPING BAG
       </h1>

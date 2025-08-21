@@ -106,7 +106,7 @@ export function LoginIcon({ size = "md", variant = "button" }: LoginIconProps) {
           className="cursor-pointer"
           onClick={() => setIsDropdownOpen(!isDropdownOpen)}
         >
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 ">
             <Avatar
               alt={user.displayName || user.email || "User"}
               initials={getUserInitials(user)}
@@ -129,7 +129,7 @@ export function LoginIcon({ size = "md", variant = "button" }: LoginIconProps) {
               transition={{ duration: 0.2 }}
               className="absolute right-0 z-50 w-48 mt-2 bg-white border border-gray-200 rounded-lg shadow-lg"
             >
-              <div className="py-2">
+              <div className="py-2 overflow-hidden">
                 {/* User Info */}
                 <div className="px-4 py-3 border-b border-gray-100">
                   <p className="text-sm font-medium text-midnight-slate font-poppins">
@@ -142,14 +142,14 @@ export function LoginIcon({ size = "md", variant = "button" }: LoginIconProps) {
 
                 {/* Menu Items */}
                 <div className="py-1">
-                  <Link
+                  {/* <Link
                     href="/settings"
-                    className="flex items-center px-4 py-2 text-sm transition-colors duration-200 text-midnight-slate hover:bg-ocean-crest/10 font-poppins"
+                    className="flex items-center px-4 py-2 text-sm transition-colors duration-200 disabled:opacity-50 text-midnight-slate hover:bg-ocean-crest/10 font-poppins"
                     onClick={() => setIsDropdownOpen(false)}
                   >
                     <Settings className="w-4 h-4 mr-3 text-ocean-crest" />
                     Settings
-                  </Link>
+                  </Link> */}
 
                   <button
                     onClick={handleLogout}
@@ -257,7 +257,7 @@ export function LoginIcon({ size = "md", variant = "button" }: LoginIconProps) {
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       transition={{ duration: 0.2 }}
-      className="flex items-center gap-2 px-6 py-2 font-medium transition-all duration-200 rounded-lg shadow-md text-porcelain-white bg-sunrise-amber hover:bg-sunrise-amber/90 font-poppins hover:shadow-lg"
+      className="flex items-center gap-2 px-6 py-2 font-medium transition-all duration-200 rounded-lg shadow-md text-porcelain-white font-poppins hover:shadow-lg"
     >
       <Link href="/login" className="flex items-center gap-2">
         <User size={20} />

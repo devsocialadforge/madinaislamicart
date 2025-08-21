@@ -11,10 +11,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Mail, Lock, Globe } from "lucide-react";
+import { Mail, Lock } from "lucide-react";
 import { motion } from "motion/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import GoogleIcon from "@/assets/icons/google_icon.svg";
+import Image from "next/image";
 
 export default function Login() {
   const router = useRouter();
@@ -94,15 +96,21 @@ export default function Login() {
             </CardDescription>
           </CardHeader>
 
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-2">
             {/* Google Sign In */}
+            {/* Google Sign In */}
+            <div className="mb-0 text-center">
+              <p className="mb-0 text-sm text-gray-600 ">
+                Recommended: Fastest & most secure
+              </p>
+            </div>
             <Button
               onClick={handleGoogleSignIn}
               disabled={isLoading}
-              className="w-full bg-white border border-gray-300 text-midnight-slate hover:bg-gray-50 font-inter"
-              variant="outline"
+              className="w-full h-auto mt-0 text-base font-semibold bg-white border border-gray-300 text-midnight-slate hover:bg-gray-50 font-inter"
+              variant="default"
             >
-              <Globe className="w-4 h-4 mr-2" />
+              <Image src={GoogleIcon} alt="Google" width={40} height={40} />
               Continue with Google
             </Button>
 
@@ -151,12 +159,12 @@ export default function Login() {
                   >
                     Password
                   </label>
-                  <Link
+                  {/* <Link
                     href="/forgot-password"
                     className="text-xs text-ocean-crest hover:text-ocean-crest/80 font-inter"
                   >
                     Forgot password?
-                  </Link>
+                  </Link> */}
                 </div>
                 <div className="relative">
                   <Lock className="absolute w-4 h-4 transform -translate-y-1/2 left-3 top-1/2 text-ironstone-gray" />

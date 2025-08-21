@@ -1,7 +1,5 @@
 import { notFound } from "next/navigation";
 import { getProductBySlug, getRelatedProducts } from "@/lib/sanity/fetch";
-import { urlFor } from "@/lib/sanity/client";
-import type { Product } from "@/components/ProductCard";
 import ProductImageGallery from "@/components/product/ProductImageGallery";
 import ProductInfo from "@/components/product/ProductInfo";
 import ProductReviews from "@/components/product/ProductReviews";
@@ -39,7 +37,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="min-h-screen mt-16 bg-porcelain-white">
-      <div className="container px-4 py-8 mx-auto">
+      <div className="container py-8 mx-auto md:px-4">
         {/* Main Product Section */}
         <div className="grid grid-cols-1 gap-8 mb-16 lg:grid-cols-2 lg:gap-12">
           {/* Left Side - Product Images (Sticky on Desktop) */}
@@ -58,7 +56,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             />
 
             {/* Reviews Section */}
-            <ProductReviews productId={product._id} />
+            <ProductReviews productId={product._id} productSlug={slug} />
           </div>
         </div>
 
