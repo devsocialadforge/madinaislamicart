@@ -11,26 +11,39 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Mail, Lock, Globe } from "lucide-react";
+import { Mail, Lock, User, Globe } from "lucide-react";
 import { motion } from "motion/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function Login() {
+export default function Register() {
   const router = useRouter();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
-  const { signInWithEmail, signInWithGoogle } = useAuth();
+  const { signUpWithEmail, signInWithGoogle } = useAuth();
 
-  const handleEmailSignIn = async (e: React.FormEvent) => {
+  const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters long");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
-      const success = await signInWithEmail(email, password);
+      const success = await signUpWithEmail(email, password);
       if (success) {
         if (email === "madeenaislamicart@gmail.com") {
           router.push("/admin");
@@ -40,7 +53,7 @@ export default function Login() {
       }
     } catch (error: any) {
       setError(error.message);
-      console.error("Login failed");
+      console.error("Registration failed");
     } finally {
       setIsLoading(false);
     }
@@ -78,10 +91,10 @@ export default function Login() {
         <Card className="border-0 shadow-xl">
           <CardHeader className="space-y-2 text-center">
             <CardTitle className="text-2xl font-bold text-midnight-slate font-poppins">
-              Welcome Back
+              Create Account
             </CardTitle>
             <CardDescription className="text-ironstone-gray font-inter">
-              Sign in to your Madina Islamic Art account
+              Join Madina Islamic Art and discover beautiful Islamic artwork
             </CardDescription>
           </CardHeader>
 
@@ -111,8 +124,29 @@ export default function Login() {
               </div>
             )}
 
-            {/* Email Form */}
-            <form onSubmit={handleEmailSignIn} className="space-y-4">
+            {/* Registration Form */}
+            <form onSubmit={handleEmailSignUp} className="space-y-4">
+              <div className="space-y-2">
+                <label
+                  htmlFor="name"
+                  className="text-sm font-medium text-midnight-slate font-inter"
+                >
+                  Full Name
+                </label>
+                <div className="relative">
+                  <User className="absolute w-4 h-4 transform -translate-y-1/2 left-3 top-1/2 text-ironstone-gray" />
+                  <Input
+                    id="name"
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Enter your full name"
+                    className="pl-10 font-inter"
+                    required
+                  />
+                </div>
+              </div>
+
               <div className="space-y-2">
                 <label
                   htmlFor="email"
@@ -135,20 +169,12 @@ export default function Login() {
               </div>
 
               <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <label
-                    htmlFor="password"
-                    className="text-sm font-medium text-midnight-slate font-inter"
-                  >
-                    Password
-                  </label>
-                  <Link
-                    href="/forgot-password"
-                    className="text-xs text-ocean-crest hover:text-ocean-crest/80 font-inter"
-                  >
-                    Forgot password?
-                  </Link>
-                </div>
+                <label
+                  htmlFor="password"
+                  className="text-sm font-medium text-midnight-slate font-inter"
+                >
+                  Password
+                </label>
                 <div className="relative">
                   <Lock className="absolute w-4 h-4 transform -translate-y-1/2 left-3 top-1/2 text-ironstone-gray" />
                   <Input
@@ -156,7 +182,31 @@ export default function Login() {
                     type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
+                    placeholder="Create a password (min. 6 characters)"
+                    className="pl-10 font-inter"
+                    required
+                  />
+                </div>
+                <p className="text-xs text-ironstone-gray font-inter">
+                  Password must be at least 6 characters long
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="confirmPassword"
+                  className="text-sm font-medium text-midnight-slate font-inter"
+                >
+                  Confirm Password
+                </label>
+                <div className="relative">
+                  <Lock className="absolute w-4 h-4 transform -translate-y-1/2 left-3 top-1/2 text-ironstone-gray" />
+                  <Input
+                    id="confirmPassword"
+                    type="password"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm your password"
                     className="pl-10 font-inter"
                     required
                   />
@@ -168,19 +218,31 @@ export default function Login() {
                 disabled={isLoading}
                 className="w-full font-semibold text-white bg-sunrise-amber hover:bg-sunrise-amber/90 font-poppins"
               >
-                {isLoading ? "Signing in..." : "Sign In"}
+                {isLoading ? "Creating Account..." : "Create Account"}
               </Button>
             </form>
 
-            {/* Sign Up Link */}
+            {/* Terms and Privacy */}
+            <p className="text-xs text-center text-ironstone-gray font-inter">
+              By creating an account, you agree to our{" "}
+              <Link href="/terms" className="text-ocean-crest hover:text-ocean-crest/80">
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link href="/privacy" className="text-ocean-crest hover:text-ocean-crest/80">
+                Privacy Policy
+              </Link>
+            </p>
+
+            {/* Sign In Link */}
             <div className="text-center">
               <p className="text-sm text-ironstone-gray font-inter">
-                Don't have an account?{" "}
+                Already have an account?{" "}
                 <Link
-                  href="/register"
+                  href="/login"
                   className="font-medium text-ocean-crest hover:text-ocean-crest/80 font-inter"
                 >
-                  Sign up
+                  Sign in
                 </Link>
               </p>
             </div>

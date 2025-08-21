@@ -100,7 +100,7 @@ export default function CollectionClient({
 
   return (
     <div className="font-inter">
-      <div className="px-4 py-6 mx-auto sm:py-8 ">
+      <div className="py-6 mx-auto md:px-4 sm:py-8 ">
         {/* Search Bar - Center Top */}
         <div className="flex justify-center mb-6 sm:mb-8">
           <div className="relative w-full max-w-md">

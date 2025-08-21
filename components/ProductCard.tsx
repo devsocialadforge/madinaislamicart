@@ -83,7 +83,6 @@ export function ProductCard({
             </div>
           )}
 
-          {/* Product Badges - Removed Most Popular and Trending */}
           {/* Only Discount Badge remains */}
 
           <div className="absolute top-2 sm:top-3 right-2 sm:right-3">
@@ -116,14 +115,14 @@ export function ProductCard({
 
           {/* Pricing - Cleaner discount display */}
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col items-center gap-1 md:gap-2 md:flex-row">
               {finalDiscountPercentage ? (
                 <>
-                  <span className="text-lg font-semibold font-poppins sm:text-xl text-midnight-slate">
-                    ₹{discountPrice?.toFixed(2)}
-                  </span>
                   <span className="text-xs text-gray-500 line-through font-inter sm:text-sm">
                     ₹{price.toFixed(2)}
+                  </span>
+                  <span className="text-sm font-semibold font-poppins sm:text-base text-midnight-slate">
+                    ₹{discountPrice?.toFixed(2)}
                   </span>
                 </>
               ) : (

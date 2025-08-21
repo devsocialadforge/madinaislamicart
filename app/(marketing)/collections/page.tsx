@@ -10,7 +10,7 @@ export default async function CollectionPage() {
 
   return (
     <div className="container min-h-screen mx-auto mt-10 bg-cloud-mist">
-      <div className="px-4 py-6 mx-auto sm:py-8">
+      <div className="py-6 mx-auto md:px-4 sm:py-8">
         <Suspense fallback={<CollectionSkeleton />}>
           <CollectionClient
             initialProducts={allProducts}

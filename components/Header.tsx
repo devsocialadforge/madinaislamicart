@@ -5,6 +5,7 @@ import { Menu, X, ChevronDown, ShoppingCart } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import Image from "next/image";
 import Link from "next/link";
+import { LoginIcon } from "@/components/LoginIcon";
 
 type HeaderProps = {
   categories?: Array<{
@@ -171,6 +172,11 @@ const Header = ({ categories }: HeaderProps) => {
 
           {/* Right side actions - Desktop */}
           <div className="items-center hidden space-x-4 lg:flex lg:gap-4 lg:justify-center">
+            {/* login icon */}
+            <div>
+              <LoginIcon />
+            </div>
+
             {/* Cart Icon with Badge */}
             <div className="relative">
               <motion.button
