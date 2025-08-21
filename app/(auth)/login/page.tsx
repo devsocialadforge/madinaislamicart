@@ -13,7 +13,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Mail, Lock, Globe } from "lucide-react";
 import { motion } from "motion/react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 export default function Login() {
@@ -23,6 +23,8 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { signInWithEmail, signInWithGoogle } = useAuth();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   const handleEmailSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,6 +36,9 @@ export default function Login() {
       if (success) {
         if (email === "madeenaislamicart@gmail.com") {
           router.push("/admin");
+        }
+        if (redirect) {
+          router.push(redirect);
         } else {
           router.push("/");
         }
@@ -57,7 +62,11 @@ export default function Login() {
         if (user?.email === "madeenaislamicart@gmail.com") {
           router.push("/admin");
         } else {
-          router.push("/");
+          if (redirect) {
+            router.push(redirect);
+          } else {
+            router.push("/");
+          }
         }
       }
     } catch (error: any) {

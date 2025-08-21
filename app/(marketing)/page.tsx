@@ -1,12 +1,10 @@
 import { Suspense } from "react";
 import { CategoriesGrid } from "@/components/CategoriesGrid";
 import { SectionHeader } from "@/components/SectionHeader";
-import { ReviewStrip } from "@/components/ReviewStrip";
 import { getBanners } from "@/lib/sanity/fetch";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { ProductCarousel } from "@/components/ProductCarouselMulti";
 
-import { getReviews } from "@/lib/sanity/fetch";
 import WhatsAppChat from "@/components/WhatsAppChat";
 import { getCategories } from "@/lib/sanity/fetch";
 import { getMostPopularProducts } from "@/lib/sanity/fetch";
@@ -19,11 +17,11 @@ export const revalidate = 600; // 10 minutes
 
 export default async function HomePage() {
   const banners = await getBanners();
-  const reviews = await getReviews();
   const categories = await getCategories();
   const mostPopularProducts = await getMostPopularProducts();
   const trendingNowProducts = await getTrendingNowProducts();
   const latestProducts = await getLatestProducts(20);
+  console.log(latestProducts);
   return (
     <div className="w-full mx-auto space-y-5 md:space-y-7 lg:space-y-10 ">
       {/* Hero Banner Section */}
@@ -158,14 +156,10 @@ export default async function HomePage() {
           </div>
         }
       >
+        {/* Reviews Section */}
         <section className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
           <SectionHeader title="Ratings & Reviews" className="mb-8" />
-          <div className="mx-auto mt-4">
-            <ReviewStrip
-              className="overflow-y-auto max-h-96"
-              reviews={reviews}
-            />
-          </div>
+          <div className="mx-auto mt-4"></div>
         </section>
       </Suspense>
 

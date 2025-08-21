@@ -7,6 +7,7 @@ export const revalidate = 600; // 10 minutes
 export default async function CollectionPage() {
   // Just fetch all products - no searchParams needed
   const allProducts = await getAllProducts();
+  console.log(allProducts);
 
   return (
     <div className="container min-h-screen mx-auto mt-10 bg-cloud-mist">

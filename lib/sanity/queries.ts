@@ -43,84 +43,18 @@ export const CATEGORIES_QUERY = `*[_type == "category"] | order(order asc) {
   "productCount": count(*[_type == "product" && references(^._id)])
 }`;
 
-// Review query with product reference
-export const REVIEWS_QUERY = `*[_type == "review" && isApproved == true] | order(_createdAt desc) {
-  _id,
-  name,
-  rating,
-  review,
-  location,
-  "date": _createdAt,
-  verified,
-  isApproved,
-  product-> {
-    _id,
-    name,
-    slug,
-    images[] {
-      asset-> {
-        url
-      },
-      alt
-    }
-  },
-  productImages[] {
-    asset-> {
-      url
-    },
-    alt
-  },
-  productVideo {
-    asset-> {
-      url
-    },
-    alt
-  }
-}`;
-
-// Reviews by Product query
-export const REVIEWS_BY_PRODUCT_QUERY = `*[_type == "review" && isApproved == true && references($productId)] | order(_createdAt desc) {
-  _id,
-  name,
-  rating,
-  review,
-  location,
-  "date": _createdAt,
-  verified,
-  isApproved,
-  product-> {
-    _id,
-    name,
-    slug,
-    images[] {
-      asset-> {
-        url
-      },
-      alt
-    }
-  },
-  productImages[] {
-    asset-> {
-      url
-    },
-    alt
-  },
-  productVideo {
-    asset-> {
-      url
-    },
-    alt
-  }
-}`;
-
 // Most Popular Products query
 export const MOST_POPULAR_PRODUCTS_QUERY = `*[_type == "product" && isMostPopular == true] | order(priority asc, _createdAt desc) [0...12] {
   _id,
   name,
   slug,
-  price,
-  discountPercentage,
-  discountPrice,
+  basePrice,
+  discountedBasePrice,
+  overallDiscountPercentage,
+  maxDiscountPercentage,
+  "price": coalesce(basePrice, 0),
+  "discountPercentage": coalesce(overallDiscountPercentage, maxDiscountPercentage),
+  "discountPrice": coalesce(discountedBasePrice, basePrice),
   stockQuantity,
   images[] {
     asset-> {
@@ -131,6 +65,12 @@ export const MOST_POPULAR_PRODUCTS_QUERY = `*[_type == "product" && isMostPopula
   category-> {
     name,
     slug
+  },
+  sizes[] {
+    size,
+    price,
+    discountPrice,
+    inStock
   }
 }`;
 
@@ -139,9 +79,13 @@ export const TRENDING_NOW_PRODUCTS_QUERY = `*[_type == "product" && isTrending =
   _id,
   name,
   slug,
-  price,
-  discountPercentage,
-  discountPrice,
+  basePrice,
+  discountedBasePrice,
+  overallDiscountPercentage,
+  maxDiscountPercentage,
+  "price": coalesce(basePrice, 0),
+  "discountPercentage": coalesce(overallDiscountPercentage, maxDiscountPercentage),
+  "discountPrice": coalesce(discountedBasePrice, basePrice),
   stockQuantity,
   images[] {
     asset-> {
@@ -152,17 +96,27 @@ export const TRENDING_NOW_PRODUCTS_QUERY = `*[_type == "product" && isTrending =
   category-> {
     name,
     slug
+  },
+  sizes[] {
+    size,
+    price,
+    discountPrice,
+    inStock
   }
 }`;
 
-// All Products query for collection page
-export const ALL_PRODUCTS_QUERY = `*[_type == "product"] | order(_createdAt desc) {
+// All Products query
+export const ALL_PRODUCTS_QUERY = `*[_type == "product"] | order(priority asc, _createdAt desc) {
   _id,
   name,
   slug,
-  price,
-  discountPercentage,
-  discountPrice,
+  basePrice,
+  discountedBasePrice,
+  overallDiscountPercentage,
+  maxDiscountPercentage,
+  "price": coalesce(basePrice, 0),
+  "discountPercentage": coalesce(overallDiscountPercentage, maxDiscountPercentage),
+  "discountPrice": coalesce(discountedBasePrice, basePrice),
   stockQuantity,
   images[] {
     asset-> {
@@ -175,6 +129,12 @@ export const ALL_PRODUCTS_QUERY = `*[_type == "product"] | order(_createdAt desc
     slug
   },
   description,
+  sizes[] {
+    size,
+    price,
+    discountPrice,
+    inStock
+  },
   _createdAt
 }`;
 
@@ -183,9 +143,9 @@ export const SEARCH_PRODUCTS_QUERY = `*[_type == "product" && name match $search
   _id,
   name,
   slug,
-  price,
-  discountPercentage,
-  discountPrice,
+  "price": coalesce(basePrice, 0),
+  "discountPercentage": coalesce(overallDiscountPercentage, maxDiscountPercentage),
+  "discountPrice": coalesce(discountedBasePrice, basePrice),
   stockQuantity,
   images[] {
     asset-> {
@@ -198,6 +158,12 @@ export const SEARCH_PRODUCTS_QUERY = `*[_type == "product" && name match $search
     slug
   },
   description,
+  sizes[] {
+    size,
+    price,
+    discountPrice,
+    inStock
+  },
   _createdAt
 }`;
 
@@ -206,9 +172,9 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[_type == "product" && category->slu
   _id,
   name,
   slug,
-  price,
-  discountPercentage,
-  discountPrice,
+  "price": coalesce(basePrice, 0),
+  "discountPercentage": coalesce(overallDiscountPercentage, maxDiscountPercentage),
+  "discountPrice": coalesce(discountedBasePrice, basePrice),
   stockQuantity,
   images[] {
     asset-> {
@@ -221,17 +187,27 @@ export const PRODUCTS_BY_CATEGORY_QUERY = `*[_type == "product" && category->slu
     slug
   },
   description,
+  sizes[] {
+    size,
+    price,
+    discountPrice,
+    inStock
+  },
   _createdAt
 }`;
 
-// Single Product query for individual product pages
+// Single Product query
 export const SINGLE_PRODUCT_QUERY = `*[_type == "product" && slug.current == $productSlug][0] {
   _id,
   name,
   slug,
-  price,
-  discountPercentage,
-  discountPrice,
+  basePrice,
+  discountedBasePrice,
+  overallDiscountPercentage,
+  maxDiscountPercentage,
+  "price": coalesce(basePrice, 0),
+  "discountPercentage": coalesce(overallDiscountPercentage, maxDiscountPercentage),
+  "discountPrice": coalesce(discountedBasePrice, basePrice),
   stockQuantity,
   images[] {
     asset-> {
@@ -244,9 +220,15 @@ export const SINGLE_PRODUCT_QUERY = `*[_type == "product" && slug.current == $pr
     slug
   },
   "description": pt::text(description),
-  rating,
-  reviewCount,
-  size,
+  sizes[] {
+    size,
+    price,
+    discountPrice,
+    inStock
+  },
+  isMostPopular,
+  isTrending,
+  priority,
   _createdAt
 }`;
 
@@ -255,9 +237,9 @@ export const RELATED_PRODUCTS_QUERY = `*[_type == "product" && category->slug.cu
   _id,
   name,
   slug,
-  price,
-  discountPercentage,
-  discountPrice,
+  "price": coalesce(basePrice, 0),
+  "discountPercentage": coalesce(overallDiscountPercentage, maxDiscountPercentage),
+  "discountPrice": coalesce(discountedBasePrice, basePrice),
   stockQuantity,
   images[] {
     asset-> {
@@ -268,5 +250,40 @@ export const RELATED_PRODUCTS_QUERY = `*[_type == "product" && category->slug.cu
   category-> {
     name,
     slug
+  },
+  sizes[] {
+    size,
+    price,
+    discountPrice,
+    inStock
   }
+}`;
+
+// Latest Products query
+export const LATEST_PRODUCTS_QUERY = `*[_type == "product"] | order(priority asc, _createdAt desc) [0...$limit] {
+  _id,
+  name,
+  slug,
+  "price": coalesce(basePrice, 0),
+  "discountPercentage": coalesce(overallDiscountPercentage, maxDiscountPercentage),
+  "discountPrice": coalesce(discountedBasePrice, basePrice),
+  stockQuantity,
+  images[] {
+    asset-> {
+      url
+    },
+    alt
+  },
+  category-> {
+    name,
+    slug
+  },
+  description,
+  sizes[] {
+    size,
+    price,
+    discountPrice,
+    inStock
+  },
+  _createdAt
 }`;
