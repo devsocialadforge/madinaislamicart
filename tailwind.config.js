@@ -70,6 +70,15 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
         DEFAULT: "var(--radius)",
       },
+      animation: {
+        shimmer: "shimmer 2s linear infinite",
+      },
+      keyframes: {
+        shimmer: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
+      },
     },
   },
   plugins: [],

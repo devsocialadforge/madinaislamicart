@@ -56,7 +56,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             />
 
             {/* Reviews Section */}
-            <ProductReviews productId={product._id} productSlug={slug} />
+            <ProductReviews productId={product._id} />
           </div>
         </div>
 
