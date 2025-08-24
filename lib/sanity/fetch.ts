@@ -126,7 +126,7 @@ export async function getLatestProducts(
   limit: number = 20
 ): Promise<Product[]> {
   try {
-    return await sanityClient.fetch(`*[_type == "product"] | order(priority asc, _createdAt desc) [0...${limit}] {
+    return await sanityClient.fetch(`*[_type == "product"] | order(coalesce(priority, 100) asc, _createdAt desc) [0...${limit}] {
       _id,
       name,
       slug,

@@ -138,31 +138,6 @@ export default async function HomePage() {
         </section>
       </Suspense>
 
-      {/* Customer Reviews Section */}
-      <Suspense
-        fallback={
-          <div className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
-            <div className="h-8 mb-8 rounded-lg bg-cloud-mist animate-pulse" />
-            <div className="w-full">
-              <div className="flex gap-3 overflow-hidden">
-                {Array.from({ length: 6 }).map((_, i) => (
-                  <div
-                    key={i}
-                    className="flex-shrink-0 h-48 w-80 bg-cloud-mist rounded-xl animate-pulse"
-                  />
-                ))}
-              </div>
-            </div>
-          </div>
-        }
-      >
-        {/* Reviews Section */}
-        <section className="p-4 bg-porcelain-white md:p-6 lg:p-8 rounded-2xl">
-          <SectionHeader title="Ratings & Reviews" className="mb-8" />
-          <div className="mx-auto mt-4"></div>
-        </section>
-      </Suspense>
-
       {/* Call to Action Section */}
       <Suspense
         fallback={

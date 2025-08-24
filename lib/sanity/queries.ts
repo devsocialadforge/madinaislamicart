@@ -28,8 +28,8 @@ export const BANNERS_QUERY = `*[_type == "banner" && isActive == true] | order(o
   }
 }`;
 
-// Category queries
-export const CATEGORIES_QUERY = `*[_type == "category"] | order(order asc) {
+// Category queries - Fixed priority ordering
+export const CATEGORIES_QUERY = `*[_type == "category"] | order(coalesce(priority, 100) asc) {
   _id,
   name,
   slug,
@@ -43,8 +43,8 @@ export const CATEGORIES_QUERY = `*[_type == "category"] | order(order asc) {
   "productCount": count(*[_type == "product" && references(^._id)])
 }`;
 
-// Most Popular Products query
-export const MOST_POPULAR_PRODUCTS_QUERY = `*[_type == "product" && isMostPopular == true] | order(priority asc, _createdAt desc) [0...12] {
+// Most Popular Products query - Fixed priority ordering
+export const MOST_POPULAR_PRODUCTS_QUERY = `*[_type == "product" && isMostPopular == true] | order(coalesce(priority, 100) asc, _createdAt desc) [0...12] {
   _id,
   name,
   slug,
@@ -74,8 +74,8 @@ export const MOST_POPULAR_PRODUCTS_QUERY = `*[_type == "product" && isMostPopula
   }
 }`;
 
-// Trending Now Products query
-export const TRENDING_NOW_PRODUCTS_QUERY = `*[_type == "product" && isTrending == true] | order(priority asc, _createdAt desc) [0...12] {
+// Trending Now Products query - Fixed priority ordering
+export const TRENDING_NOW_PRODUCTS_QUERY = `*[_type == "product" && isTrending == true] | order(coalesce(priority, 100) asc, _createdAt desc) [0...12] {
   _id,
   name,
   slug,
@@ -105,8 +105,8 @@ export const TRENDING_NOW_PRODUCTS_QUERY = `*[_type == "product" && isTrending =
   }
 }`;
 
-// All Products query
-export const ALL_PRODUCTS_QUERY = `*[_type == "product"] | order(priority asc, _createdAt desc) {
+// All Products query - Fixed priority ordering
+export const ALL_PRODUCTS_QUERY = `*[_type == "product"] | order(coalesce(priority, 100) asc, _createdAt desc) {
   _id,
   name,
   slug,
@@ -139,7 +139,7 @@ export const ALL_PRODUCTS_QUERY = `*[_type == "product"] | order(priority asc, _
 }`;
 
 // Search products query
-export const SEARCH_PRODUCTS_QUERY = `*[_type == "product" && name match $searchTerm] | order(_createdAt desc) {
+export const SEARCH_PRODUCTS_QUERY = `*[_type == "product" && name match $searchTerm] | order(coalesce(priority, 100) asc, _createdAt desc) {
   _id,
   name,
   slug,
@@ -167,8 +167,8 @@ export const SEARCH_PRODUCTS_QUERY = `*[_type == "product" && name match $search
   _createdAt
 }`;
 
-// Products by Category query for dynamic category pages
-export const PRODUCTS_BY_CATEGORY_QUERY = `*[_type == "product" && category->slug.current == $categorySlug] | order(priority asc, _createdAt desc) {
+// Products by Category query - Fixed priority ordering
+export const PRODUCTS_BY_CATEGORY_QUERY = `*[_type == "product" && category->slug.current == $categorySlug] | order(coalesce(priority, 100) asc, _createdAt desc) {
   _id,
   name,
   slug,
