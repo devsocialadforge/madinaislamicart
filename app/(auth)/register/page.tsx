@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useAuth } from "@/store/auth";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,7 +19,7 @@ import GoogleIcon from "@/assets/icons/google_icon.svg";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 
-export default function Register() {
+function RegisterForm() {
   const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -268,5 +268,25 @@ export default function Register() {
         </Card>
       </motion.div>
     </div>
+  );
+}
+
+export default function Register() {
+  return (
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center min-h-screen p-4 bg-cloud-mist">
+          <div className="w-full max-w-md text-center">
+            <div className="animate-pulse">
+              <div className="h-8 mb-4 bg-gray-200 rounded"></div>
+              <div className="h-4 mb-2 bg-gray-200 rounded"></div>
+              <div className="h-4 bg-gray-200 rounded"></div>
+            </div>
+          </div>
+        </div>
+      }
+    >
+      <RegisterForm />
+    </Suspense>
   );
 }
