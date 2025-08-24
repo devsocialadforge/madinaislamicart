@@ -309,11 +309,15 @@ export default function ProductInfo({
                 <div className="text-center">
                   <div className="font-semibold">{size.size}</div>
                   <div className="text-xs opacity-80">
-                    ₹{size.price.toLocaleString()}
-                    {size.discountPrice && size.discountPrice < size.price && (
-                      <span className="ml-1 line-through opacity-60">
+                    {size.discountPrice && size.discountPrice < size.price ? (
+                      <>
                         ₹{size.discountPrice.toLocaleString()}
-                      </span>
+                        <span className="ml-1 line-through opacity-60">
+                          ₹{size.price.toLocaleString()}
+                        </span>
+                      </>
+                    ) : (
+                      <span>₹{size.price.toLocaleString()}</span>
                     )}
                   </div>
                 </div>
