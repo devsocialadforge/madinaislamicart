@@ -659,7 +659,9 @@ export default function ProductReviews({
                     )}
                     <div className="flex items-center gap-3 mb-2">
                       <h3 className="text-xs text-midnight-slate font-poppins">
-                        {review.user_name}
+                        {review.user_name.length > 15
+                          ? `${review.user_name.substring(0, 15)}...`
+                          : review.user_name}
                       </h3>
                       <Badge className="text-xs font-light text-green-700 bg-transparent">
                         Verified Purchase
