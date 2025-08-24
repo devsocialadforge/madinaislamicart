@@ -479,42 +479,44 @@ export default function ProductInfo({
       {/* Features */}
       <Card className="border-cloud-mist">
         <CardContent className="p-4">
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="flex items-center gap-3">
+          <div className="grid grid-cols-3 gap-2 sm:gap-4">
+            <div className="flex flex-col items-center gap-3 md:flex-row">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-sunrise-amber/10">
                 <Truck className="w-5 h-5 text-sunrise-amber" />
               </div>
               <div>
-                <p className="text-sm font-medium text-midnight-slate">
+                <p className="text-xs font-medium md:text-sm text-midnight-slate">
                   Free Shipping
                 </p>
-                <p className="text-xs text-ironstone-gray">
-                  On orders above ₹999
+                <p className="hidden text-xs text-ironstone-gray md:block">
+                  Free Shipping on All Orders in India
                 </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col items-center justify-center gap-3 md:flex-row">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-ocean-crest/10">
                 <Shield className="w-5 h-5 text-ocean-crest" />
               </div>
               <div>
-                <p className="text-sm font-medium text-midnight-slate">
+                <p className="text-xs font-medium md:text-sm text-midnight-slate">
                   Secure Payment
                 </p>
-                <p className="text-xs text-ironstone-gray">100% protected</p>
+                <p className="hidden text-xs md:block text-ironstone-gray">
+                  100% protected
+                </p>
               </div>
             </div>
 
-            <div className="flex items-center gap-3">
+            <div className="flex flex-col items-center gap-3 md:flex-row">
               <div className="flex items-center justify-center w-10 h-10 rounded-full bg-green-500/10">
                 <RotateCcw className="w-5 h-5 text-green-600" />
               </div>
               <div>
-                <p className="text-sm font-medium text-midnight-slate">
+                <p className="text-xs font-medium md:text-sm text-midnight-slate">
                   Easy Returns
                 </p>
-                <p className="text-xs text-ironstone-gray">
+                <p className="hidden text-xs md:block text-ironstone-gray">
                   30-day return policy
                 </p>
               </div>

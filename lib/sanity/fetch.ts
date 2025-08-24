@@ -130,10 +130,11 @@ export async function getLatestProducts(
       _id,
       name,
       slug,
-      "price": coalesce(basePrice, 0),
-      "discountPercentage": coalesce(overallDiscountPercentage, maxDiscountPercentage),
-      "discountPrice": coalesce(discountedBasePrice, basePrice),
-      stockQuantity,
+      "basePrice": coalesce(basePrice, 0),
+      "discountedBasePrice": coalesce(discountedBasePrice, basePrice),
+      "overallDiscountPercentage": coalesce(overallDiscountPercentage, 0),
+      "maxDiscountPercentage": coalesce(maxDiscountPercentage, 0),
+      "stockQuantity": coalesce(stockQuantity, false),
       images[] {
         asset-> {
           url
@@ -145,6 +146,17 @@ export async function getLatestProducts(
         slug
       },
       description,
+      rating,
+      reviewCount,
+      isMostPopular,
+      isTrending,
+      priority,
+      sizes[] {
+        size,
+        price,
+        discountPrice,
+        inStock
+      },
       _createdAt
     }`);
   } catch (error) {
