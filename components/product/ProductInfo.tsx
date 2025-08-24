@@ -14,6 +14,10 @@ import {
   Shield,
   RotateCcw,
   Loader2,
+  MessageCircle,
+  Instagram,
+  Copy,
+  Check,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/store/cart";
@@ -21,6 +25,13 @@ import { useAuth } from "@/store/auth";
 import { useRouter } from "next/navigation";
 import type { Product } from "@/components/ProductCard";
 import { getReviews } from "@/lib/firestore";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { toast } from "sonner";
 
 interface ProductInfoProps {
   product: Product;
@@ -187,20 +198,26 @@ export default function ProductInfo({
 
         {/* Rating & Reviews */}
         <div className="flex items-center gap-4">
-          <div className="flex items-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <Star
-                key={i}
-                className={cn(
-                  "w-4 h-4",
-                  i < Math.floor(rating)
-                    ? "text-yellow-400 fill-yellow-400"
-                    : "text-gray-300"
-                )}
-              />
-            ))}
+          <div className="flex items-center gap-2">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-5 h-5 ${
+                    i < Math.floor(rating)
+                      ? "text-amber-400 fill-amber-400"
+                      : i < rating
+                        ? "text-amber-400 fill-amber-400"
+                        : "text-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-lg font-bold text-midnight-slate">
+              {rating.toFixed(1)}
+            </span>
             <span className="ml-1 text-sm text-ironstone-gray">
-              {rating} ({reviewCount} reviews)
+              ({reviewCount} reviews)
             </span>
           </div>
 
@@ -398,14 +415,60 @@ export default function ProductInfo({
             {isFavorited ? "Favorited" : "Add to Wishlist"}
           </Button>
 
-          <Button
-            variant="ghost"
-            size="sm"
-            className="text-ironstone-gray hover:text-sunrise-amber"
-          >
-            <Share2 className="w-5 h-5 mr-2" />
-            Share
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button
+                variant="outline"
+                className="flex items-center px-4 py-2 text-sm font-medium transition-all duration-200 border-slate-300 text-slate-700 hover:bg-slate-50 hover:border-slate-400"
+              >
+                <Share2 className="w-5 h-5 mr-2" />
+                Share
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-48">
+              <DropdownMenuItem
+                onClick={() => {
+                  const url = window.location.href;
+                  const text = `Check out this amazing product: ${product.name}`;
+                  const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text + " " + url)}`;
+                  window.open(whatsappUrl, "_blank");
+                }}
+                className="flex items-center gap-3 cursor-pointer"
+              >
+                <MessageCircle className="w-4 h-4 text-green-600" />
+                Share on WhatsApp
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                onClick={() => {
+                  const url = window.location.href;
+                  const text = `Check out this amazing product: ${product.name}`;
+                  const instagramUrl = `https://www.instagram.com/?url=${encodeURIComponent(url)}&caption=${encodeURIComponent(text)}`;
+                  window.open(instagramUrl, "_blank");
+                }}
+                className="flex items-center gap-3 cursor-pointer"
+              >
+                <Instagram className="w-4 h-4 text-pink-600" />
+                Share on Instagram
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                onClick={async () => {
+                  const url = window.location.href;
+                  try {
+                    await navigator.clipboard.writeText(url);
+                    toast.success("Link copied to clipboard!");
+                  } catch (err) {
+                    toast.error("Failed to copy link");
+                  }
+                }}
+                className="flex items-center gap-3 cursor-pointer"
+              >
+                <Copy className="w-4 h-4 text-blue-600" />
+                Copy Link
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 

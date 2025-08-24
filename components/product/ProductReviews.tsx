@@ -133,7 +133,7 @@ const RatingSummary = ({ reviews }: { reviews: Review[] }) => {
   );
 };
 
-export default function ReviewSection({
+export default function ProductReviews({
   productId,
   productSlug,
 }: {
