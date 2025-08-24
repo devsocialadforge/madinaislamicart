@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import GoogleIcon from "@/assets/icons/google_icon.svg";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 
 export default function Register() {
   const router = useRouter();
@@ -27,6 +28,8 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const { signUpWithEmail, signInWithGoogle } = useAuth();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   const handleEmailSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,6 +74,8 @@ export default function Register() {
         const { user } = useAuth.getState();
         if (user?.email === "madeenaislamicart@gmail.com") {
           router.push("/admin");
+        } else if (redirect) {
+          router.push(redirect);
         } else {
           router.push("/");
         }

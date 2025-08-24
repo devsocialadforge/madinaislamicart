@@ -21,7 +21,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { toast } from "sonner";
-import { Star, Upload, X, Calendar, CheckCircle } from "lucide-react";
+import { Star, Upload, X, Calendar } from "lucide-react";
 import { useAuth } from "@/store/auth";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -146,6 +146,7 @@ export default function ProductReviews({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
+  const [imageLoading, setImageLoading] = useState(true);
   const [reviewForm, setReviewForm] = useState({
     title: "",
     content: "",
@@ -159,7 +160,7 @@ export default function ProductReviews({
   // 🔹 Handle Write Review Click - Redirect to login if not authenticated
   const handleWriteReviewClick = () => {
     if (!user) {
-      router.push(`/login?redirect=/product/${productSlug}`);
+      router.push(`/register?redirect=/product/${productSlug}`);
       return;
     }
     setShowReviewForm(!showReviewForm);
@@ -697,23 +698,60 @@ export default function ProductReviews({
       {selectedImage && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
-          onClick={() => setSelectedImage(null)}
+          onClick={() => {
+            setSelectedImage(null);
+            setImageLoading(true);
+          }}
         >
           <div className="relative max-w-4xl max-h-[90vh] p-4">
             <button
-              onClick={() => setSelectedImage(null)}
+              onClick={() => {
+                setSelectedImage(null);
+                setImageLoading(true);
+              }}
               className="absolute z-10 flex items-center justify-center w-8 h-8 text-white transition-colors rounded-full top-2 right-2 bg-black/50 hover:bg-black/70"
             >
               <X className="w-5 h-5" />
             </button>
-            <Image
-              src={selectedImage}
-              alt="Review image"
-              width={800}
-              height={600}
-              className="object-contain w-full h-full rounded-lg"
-              onClick={(e) => e.stopPropagation()}
-            />
+
+            <div className="relative w-full h-64">
+              {/* Loading animations - only show when imageLoading is true */}
+              {imageLoading && (
+                <>
+                  {/* First loading animation - Spinning circle */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-16 h-16 border-4 rounded-full border-white/20 border-t-white animate-spin" />
+                  </div>
+
+                  {/* Second loading animation - Pulsing dots */}
+                  <div className="absolute inset-0 flex items-center justify-center gap-2">
+                    <div
+                      className="w-3 h-3 bg-white rounded-full animate-bounce"
+                      style={{ animationDelay: "0ms" }}
+                    ></div>
+                    <div
+                      className="w-3 h-3 bg-white rounded-full animate-bounce"
+                      style={{ animationDelay: "150ms" }}
+                    ></div>
+                    <div
+                      className="w-3 h-3 bg-white rounded-full animate-bounce"
+                      style={{ animationDelay: "300ms" }}
+                    ></div>
+                  </div>
+                </>
+              )}
+
+              <Image
+                src={selectedImage}
+                alt="Review image"
+                width={800}
+                height={600}
+                className="object-contain w-full h-full transition-opacity duration-500 rounded-lg"
+                onClick={(e) => e.stopPropagation()}
+                onLoad={() => setImageLoading(false)}
+                onError={() => setImageLoading(false)}
+              />
+            </div>
           </div>
         </div>
       )}
