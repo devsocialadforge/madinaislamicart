@@ -10,7 +10,7 @@ interface ProductPageProps {
     slug: string;
   }>;
 }
-export const revalidate = 20;
+export const revalidate = 600;
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
